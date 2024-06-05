@@ -1,12 +1,20 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from '@src/app.service';
+import { ConfigService } from '@src/common/services/config/config.service';
+import { IResponse } from '@src/common/dto/response/response';
+import { HttpStatus } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello(): IResponse {
+    return {
+      status: HttpStatus.OK,
+      message: this.configService.messages.successInformation,
+      body: {
+        message: this.configService.constants.rootText,
+      },
+    };
   }
 }

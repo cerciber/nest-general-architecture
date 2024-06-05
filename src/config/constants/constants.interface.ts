@@ -1,5 +1,3 @@
 export interface IConstants {
-  messages: {
-    rootText: string;
-  };
+  rootText: string;
 }

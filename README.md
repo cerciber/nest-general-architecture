@@ -83,5 +83,11 @@ nest generate class modules/<moduleName>/entities/<entityName>
 **Create DTO's**
 
 ```
-nest generate class modules/<moduleName>/dto/<dtoName>.dto
+nest generate class modules/<moduleName>/dto/<dtoName>
+```
+
+**Create interceptors**
+
+```
+nest generate interceptor common/interceptors/<interceptorName>
 ```
