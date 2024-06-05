@@ -1,8 +1,14 @@
-import { IResponse } from '@src/common/dto/response/response.interface';
+import { IErrorInput } from '@src/common/dto/response/errorInput.interface';
+import { IErrorResponse } from '@src/common/dto/response/errorResponse.interface';
 
 export class ResponseError extends Error {
-  constructor(public response: IResponse) {
-    super(response.message);
-    this.response.body.stack = this.stack;
+  public response: IErrorResponse;
+  constructor(public responseInput: IErrorInput) {
+    super(responseInput.message);
+    this.response = {
+      status: responseInput.status,
+      message: responseInput.message,
+      error: this.stack.split('\n'),
+    };
   }
 }
