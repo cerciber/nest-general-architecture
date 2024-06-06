@@ -8,8 +8,8 @@ import { ISuccessResponse } from './common/dto/response/successResponse.interfac
 export class AppController {
   constructor(private readonly configService: ConfigService) {}
 
-  @Get()
-  getHello(): ISuccessResponse {
+  @Get('test/success')
+  getTestSuccess(): ISuccessResponse {
     return {
       status: HttpStatus.OK,
       message: this.configService.messages.successInformation,
@@ -19,8 +19,8 @@ export class AppController {
     };
   }
 
-  @Get('/error')
-  getHelloWithError() {
+  @Get('test/error')
+  getTestError() {
     throw new ResponseError({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       message: 'Test response error',

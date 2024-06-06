@@ -14,6 +14,7 @@ import { IErrorResponse } from '@src/common/dto/response/errorResponse.interface
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    const res = context.switchToHttp().getResponse();
     return next.handle().pipe(
       catchError((err) => {
         if (err instanceof ResponseError) {
@@ -28,6 +29,7 @@ export class ResponseInterceptor implements NestInterceptor {
         }
       }),
       tap((response: IResponse) => {
+        res.status(response.status);
         console.log('_____________________________');
         console.log('Response:', response);
       }),
