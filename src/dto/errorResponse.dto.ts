@@ -1,9 +1,9 @@
 import { BasicResponseDto } from './basicResponse.dto';
-import { IsArray, IsDefined, IsString } from 'class-validator';
+import { IsDefined, IsObject } from 'class-validator';
+import { ErrorDto } from './error.dto';
 
 export class ErrorResponseDto extends BasicResponseDto {
   @IsDefined()
-  @IsArray()
-  @IsString({ each: true })
-  error: string[];
+  @IsObject()
+  error: ErrorDto;
 }

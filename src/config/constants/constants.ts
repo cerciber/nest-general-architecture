@@ -1,6 +1,5 @@
-import { IConstants } from './constants.interface';
+import { ConstantsDto } from './constants.dto';
 
-export const constants: IConstants = {
-  rootText:
-    'Hi! this is a template to create nest 3 layered architecture. By @cerciber.',
+export const constants: ConstantsDto = {
+  testConstant: 'Test constant.',
 };
