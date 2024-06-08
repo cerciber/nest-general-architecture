@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { IResponse } from '@src/common/dto/response/response.interface';
+import { BodyResponseDto } from '@src/common/dto/response/bodyResponse.dto';
 import { ResponseError } from '@src/common/exceptions/responseError/responseError';
-import { IErrorResponse } from '@src/common/dto/response/errorResponse.interface';
+import { ErrorResponseDto } from '@src/common/dto/response/errorResponse.dto';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
@@ -20,7 +20,7 @@ export class ResponseInterceptor implements NestInterceptor {
         if (err instanceof ResponseError) {
           return of(err.response);
         } else {
-          const errorResponse: IErrorResponse = {
+          const errorResponse: ErrorResponseDto = {
             status: HttpStatus.INTERNAL_SERVER_ERROR,
             message: err?.message || 'Unhandled Error',
             error: err?.stack?.split('\n') || 'No stack trace available',
@@ -28,7 +28,7 @@ export class ResponseInterceptor implements NestInterceptor {
           return of(errorResponse);
         }
       }),
-      tap((response: IResponse) => {
+      tap((response: BodyResponseDto | ErrorResponseDto) => {
         res.status(response.status);
         console.log('_____________________________');
         console.log('Response:', response);

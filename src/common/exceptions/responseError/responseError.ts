@@ -1,9 +1,9 @@
-import { IErrorInput } from '@src/common/dto/response/errorInput.interface';
-import { IErrorResponse } from '@src/common/dto/response/errorResponse.interface';
+import { BasicResponseDto } from '@src/common/dto/response/basicResponse.dto';
+import { ErrorResponseDto } from '@src/common/dto/response/errorResponse.dto';
 
 export class ResponseError extends Error {
-  public response: IErrorResponse;
-  constructor(public responseInput: IErrorInput) {
+  public response: ErrorResponseDto;
+  constructor(public responseInput: BasicResponseDto) {
     super(responseInput.message);
     this.response = {
       status: responseInput.status,
