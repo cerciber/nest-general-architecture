@@ -16,7 +16,6 @@ export class AppController {
     type: BodyMessageResponseDto,
   })
   getRootMessage(): BodyMessageResponseDto {
-    throw 'hello';
     return {
       status: HttpStatus.OK,
       message: config.messages.labels.successLabel,
