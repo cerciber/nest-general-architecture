@@ -1,8 +1,14 @@
+import { config as dotenvConfig } from 'dotenv';
+
+// Config envs
+dotenvConfig();
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@src/app.module';
 import { SwaggerBuilder } from '@src/entities/swaggerBuilder';
 import { config } from '@src/config/config';
 import { validationConfig } from './entities/validationConfig';
+import { isNumber } from 'class-validator';
 
 async function bootstrap() {
   // Create app
@@ -15,7 +21,10 @@ async function bootstrap() {
   new SwaggerBuilder(app);
 
   // Listen
-  await app.listen(config.constants.nestPort);
+  if (!isNumber(Number(config.envs.nestPort))) {
+    throw new Error('Nest port is not valid.');
+  }
+  await app.listen(config.envs.nestPort);
 }
 
 bootstrap();
