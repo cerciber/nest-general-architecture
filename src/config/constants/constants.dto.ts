@@ -1,3 +1,7 @@
 export class ConstantsDto {
-  testConstant: string;
+  nestPort: number;
+  validations: {
+    whitelist: boolean;
+    forbidNonWhitelisted: boolean;
+  };
 }

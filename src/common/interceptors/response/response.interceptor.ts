@@ -10,7 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { BodyResponseDto } from '@src/dto/bodyResponse.dto';
 import { ResponseError } from '@src/common/exceptions/responseError/responseError';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
-import { ConfigDto } from '@src/dto/config.dto';
+import { config } from '@src/config/config';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
@@ -23,13 +23,12 @@ export class ResponseInterceptor implements NestInterceptor {
         } else {
           const errorResponse: ErrorResponseDto = {
             status: HttpStatus.INTERNAL_SERVER_ERROR,
-            message:
-              err?.message ?? ConfigDto.messages.labels.unhandlerErrorLabel,
+            message: err?.message ?? config.messages.labels.unhandlerErrorLabel,
             error: {
-              message: ConfigDto.messages.custom.default.unhandlerErrorMessage,
+              message: config.messages.custom.default.unhandlerErrorMessage,
               stack: err?.stack?.split('\n') ?? [
-                `Error: ${ConfigDto.messages.custom.default.unhandlerErrorMessage}`,
-                ConfigDto.messages.custom.default.noTraceAvalible,
+                `Error: ${config.messages.custom.default.unhandlerErrorMessage}`,
+                `    at ${config.messages.custom.default.noTraceAvalible}`,
               ],
             },
           };

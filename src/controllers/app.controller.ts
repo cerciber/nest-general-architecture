@@ -1,11 +1,11 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
-import { ConfigDto } from '@src/dto/config.dto';
+import { config } from '@src/config/config';
 import { HttpStatus } from '@nestjs/common';
 import { BodyMessageResponseDto } from '@src/dto/bodyMessageResponse.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiTags(ConfigDto.paths.root.tag)
-@Controller(ConfigDto.paths.root.path)
+@ApiTags(config.paths.root.tag)
+@Controller(config.paths.root.path)
 export class AppController {
   constructor() {}
 
@@ -16,11 +16,12 @@ export class AppController {
     type: BodyMessageResponseDto,
   })
   getRootMessage(): BodyMessageResponseDto {
+    throw 'hello';
     return {
       status: HttpStatus.OK,
-      message: ConfigDto.messages.labels.successLabel,
+      message: config.messages.labels.successLabel,
       body: {
-        message: ConfigDto.messages.custom.root.rootMessage,
+        message: config.messages.custom.root.rootMessage,
       },
     };
   }

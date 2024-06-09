@@ -2,11 +2,11 @@ import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
 import { ResponseError } from '@src/common/exceptions/responseError/responseError';
-import { ConfigDto } from '@src/dto/config.dto';
+import { config } from '@src/config/config';
 
-@ApiTags(ConfigDto.paths.default.tag)
-@Controller(ConfigDto.paths.default.path)
-export class PathNoFoundController {
+@ApiTags(config.paths.default.tag)
+@Controller(config.paths.default.path)
+export class NotFoundController {
   constructor() {}
 
   @Get()
@@ -19,10 +19,10 @@ export class PathNoFoundController {
     throw new ResponseError(
       {
         status: HttpStatus.NOT_FOUND,
-        message: ConfigDto.messages.labels.noFoundLabel,
+        message: config.messages.labels.noFoundLabel,
       },
       {
-        message: ConfigDto.messages.custom.default.noFoundMessage,
+        message: config.messages.custom.default.noFoundMessage,
       },
     );
   }

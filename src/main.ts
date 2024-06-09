@@ -1,27 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@src/app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { SwaggerBuilder } from '@src/entities/swaggerBuilder';
+import { config } from '@src/config/config';
+import { validationConfig } from './entities/validationConfig';
 
 async function bootstrap() {
+  // Create app
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-    }),
-  );
 
-  const config = new DocumentBuilder()
-    .setTitle('Nest General Architecture')
-    .setDescription(
-      'General architecture for Nest.js with TypeScript implementing 3 Layered Architecture. Node.js.',
-    )
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  // Only allow validate data
+  app.useGlobalPipes(new validationConfig().build());
 
-  await app.listen(3000);
+  // Create Swagger Doc
+  new SwaggerBuilder(app);
+
+  // Listen
+  await app.listen(config.constants.nestPort);
 }
+
 bootstrap();
