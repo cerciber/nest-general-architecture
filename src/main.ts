@@ -8,23 +8,29 @@ import { AppModule } from '@src/app.module';
 import { SwaggerBuilder } from '@src/entities/swaggerBuilder';
 import { config } from '@src/config/config';
 import { validationConfig } from './entities/validationConfig';
-import { isNumber } from 'class-validator';
+import { InputDataValidator } from './entities/inputDataValidator';
+import { HandlerResponse } from './entities/handlerError';
 
 async function bootstrap() {
-  // Create app
-  const app = await NestFactory.create(AppModule);
+  try {
+    // Validate start input data
+    await new InputDataValidator().validateEnvs();
 
-  // Only allow validate data
-  app.useGlobalPipes(new validationConfig().build());
+    // Create app
+    const app = await NestFactory.create(AppModule);
 
-  // Create Swagger Doc
-  new SwaggerBuilder(app);
+    // Only allow valid class validators data
+    app.useGlobalPipes(new validationConfig().build());
 
-  // Listen
-  if (!isNumber(Number(config.envs.nestPort))) {
-    throw new Error('Nest port is not valid.');
+    // Create Swagger Doc
+    new SwaggerBuilder(app);
+
+    // Listen
+    await app.listen(config.envs.PORT);
+  } catch (err) {
+    // Handler error
+    HandlerResponse.systemHandler(err);
   }
-  await app.listen(config.envs.nestPort);
 }
 
 bootstrap();

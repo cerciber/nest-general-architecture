@@ -5,8 +5,17 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@src/common/interceptors/response/response.interceptor';
 import { TestModule } from './modules/test/test.module';
 import { NotFoundModule } from './modules/notFound/notFound.module';
+import { ConfigModule } from '@nestjs/config';
+
 @Module({
-  imports: [TestModule, NotFoundModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    TestModule,
+    NotFoundModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,

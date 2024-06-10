@@ -6,6 +6,7 @@ export const messages: MessagesDto = {
     errorLabel: 'An error occurred while retrieving information.',
     noFoundLabel: 'No information found.',
     unhandlerErrorLabel: 'Unhandled error.',
+    startErrorLabel: 'An error occurred while starting the application.',
   },
   custom: {
     root: {

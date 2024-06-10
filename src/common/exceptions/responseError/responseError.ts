@@ -1,19 +1,18 @@
 import { BasicResponseDto } from '@src/dto/basicResponse.dto';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
-import { MessageDto } from '@src/dto/message.dto';
 
 export class ResponseError extends Error {
   public response: ErrorResponseDto;
   constructor(
     public responseInput: BasicResponseDto,
-    public errorMessage: MessageDto,
+    public errorMessage: string,
   ) {
-    super(errorMessage.message);
+    super(errorMessage);
     this.response = {
       status: responseInput.status,
       message: responseInput.message,
       error: {
-        message: errorMessage.message,
+        message: errorMessage,
         stack: this.stack.split('\n'),
       },
     };

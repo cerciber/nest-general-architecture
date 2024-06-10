@@ -4,6 +4,7 @@ export class MessagesDto {
     errorLabel: string;
     noFoundLabel: string;
     unhandlerErrorLabel: string;
+    startErrorLabel: string;
   };
   custom: {
     root: {

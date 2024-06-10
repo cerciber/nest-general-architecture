@@ -21,9 +21,7 @@ export class NotFoundController {
         status: HttpStatus.NOT_FOUND,
         message: config.messages.labels.noFoundLabel,
       },
-      {
-        message: config.messages.custom.default.noFoundMessage,
-      },
+      config.messages.custom.default.noFoundMessage,
     );
   }
 }

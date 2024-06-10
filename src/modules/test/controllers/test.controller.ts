@@ -39,9 +39,7 @@ export class TestController {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         message: config.messages.labels.errorLabel,
       },
-      {
-        message: config.messages.custom.test.errorMessage,
-      },
+      config.messages.custom.test.errorMessage,
     );
   }
 }
