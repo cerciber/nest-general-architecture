@@ -4,7 +4,7 @@ import { ResponseError } from '@src/common/exceptions/responseError/responseErro
 import { config } from '@src/config/config';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
 import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
-import { Logger } from '@src/entities/logger';
+import Logger from '@src/entities/logger';
 
 export class HandlerResponse {
   public static systemHandler(err: any) {
@@ -25,7 +25,7 @@ export class HandlerResponse {
         },
       };
     }
-    Logger.log(response);
+    Logger.error(response.message, Logger.types.SYSTEM, 'INIT', response);
     return response;
   }
 

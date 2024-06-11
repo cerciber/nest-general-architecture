@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BodyResponseDto } from '@src/dto/bodyResponse.dto';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
-import { Logger } from '@src/entities/logger';
+import Logger from '@src/entities/logger';
 import { HandlerResponse } from '@src/entities/handlerError';
 
 @Injectable()
@@ -20,7 +20,21 @@ export class ResponseInterceptor implements NestInterceptor {
         return of(HandlerResponse.responseHandler(err));
       }),
       tap((response: BodyResponseDto | ErrorResponseDto) => {
-        Logger.log(response);
+        if ('body' in response) {
+          Logger.info(
+            response.message,
+            Logger.types.SYSTEM,
+            'RESPONSE',
+            response,
+          );
+        } else {
+          Logger.error(
+            response.message,
+            Logger.types.SYSTEM,
+            'RESPONSE',
+            response,
+          );
+        }
         res.status(response.status);
       }),
     );

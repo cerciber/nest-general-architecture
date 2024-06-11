@@ -3,4 +3,8 @@ export class ConstantsDto {
     whitelist: boolean;
     forbidNonWhitelisted: boolean;
   };
+  winston: {
+    maxBitsPerFile: number;
+    maxFiles: number;
+  };
 }

@@ -8,4 +8,8 @@ export const constants: ConstantsDto = {
     //  Throw not allowed data from validations
     forbidNonWhitelisted: true,
   },
+  winston: {
+    maxBitsPerFile: 5120000,
+    maxFiles: 5,
+  },
 };
