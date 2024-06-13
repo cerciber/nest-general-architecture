@@ -1,4 +1,5 @@
 import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
+import { v4 } from 'uuid';
 
 export class LaunchError extends Error {
   public response: LaunchErrorResponseDto;
@@ -10,6 +11,7 @@ export class LaunchError extends Error {
     this.response = {
       message: labelMessage,
       error: {
+        id: v4(),
         message: errorMessage,
         stack: this.stack.split('\n'),
       },

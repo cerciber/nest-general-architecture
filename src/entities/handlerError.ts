@@ -5,6 +5,7 @@ import { config } from '@src/config/config';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
 import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
 import Logger from '@src/entities/logger';
+import { v4 } from 'uuid';
 
 export class HandlerResponse {
   public static systemHandler(err: any) {
@@ -15,6 +16,7 @@ export class HandlerResponse {
       response = {
         message: config.messages.labels.unhandlerErrorLabel,
         error: {
+          id: v4(),
           message:
             err?.message ??
             config.messages.custom.default.unhandlerErrorMessage,
@@ -38,6 +40,7 @@ export class HandlerResponse {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
         message: config.messages.labels.unhandlerErrorLabel,
         error: {
+          id: v4(),
           message:
             err?.message ??
             config.messages.custom.default.unhandlerErrorMessage,

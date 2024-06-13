@@ -8,8 +8,28 @@ export const constants: ConstantsDto = {
     //  Throw not allowed data from validations
     forbidNonWhitelisted: true,
   },
-  winston: {
+  logs: {
+    // Max log bits per file
     maxBitsPerFile: 5120000,
+    // Max log files
     maxFiles: 5,
+    // Enable general logs
+    enableLogs: true,
+    // Enable console logs
+    enableConsoleLog: true,
+    // Enable file logs
+    enableFileLog: true,
+    // Log all user responses
+    logAllUserResponses: false,
+    // Log warning responses
+    logWarningUserResponses: true,
+  },
+  request: {
+    // Response with error
+    responseWithError: true,
+    // Response with error stack
+    responseWithErrorStack: true,
+    // Response warnings with errors
+    responseWarningsWithError: true,
   },
 };

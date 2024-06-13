@@ -1,63 +1,79 @@
 import { createLogger, format, transports, Logger } from 'winston';
 import { config } from '@src/config/config';
 
+// By files
+const fileTransport = new transports.File({
+  maxsize: config.constants.logs.maxBitsPerFile,
+  maxFiles: config.constants.logs.maxFiles,
+  filename: `logs/log.log`,
+  // Set format
+  format: format.combine(
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    format.metadata(),
+    format.printf((info) => {
+      return `[${info.metadata.timestamp}] [${info.level.toUpperCase()}:${info.metadata.category}] \n  → ${
+        info.message
+      } ${
+        info.metadata.content
+          ? `\n  → ${JSON.stringify(info.metadata.content, null, 2).replace(/\n/g, '\n    ')}`
+          : ''
+      }`;
+    }),
+  ),
+});
+
+// By console
+const consoleTransport = new transports.Console({
+  // Set format
+  format: format.combine(
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    format.metadata(),
+    format.printf((info) => {
+      let label = info.level.toUpperCase();
+      // Set colors
+      switch (info.level.toUpperCase()) {
+        case 'INFO':
+          label = `\x1b[37m[${label}]`;
+          break;
+        case 'WARN':
+          label = `\x1b[33m[${label}]`;
+          break;
+        case 'ERROR':
+          label = `\x1b[31m[${label}]`;
+          break;
+        default:
+      }
+      return `\x1b[32m[${info.metadata.timestamp}] ${label} \x1b[36m[${
+        info.metadata.type
+      }:${info.metadata.category}] \x1b[37m\n  → ${info.message} ${
+        info.metadata.content
+          ? `\n  → ${JSON.stringify(info.metadata.content, null, 2).replace(/\n/g, '\n    ')}`
+          : ''
+      }`;
+    }),
+  ),
+});
+
+// Asign store mechanisms
+const transportList = [];
+if (config.constants.logs.enableLogs) {
+  if (config.constants.logs.enableConsoleLog) {
+    transportList.push(consoleTransport);
+  }
+  if (config.constants.logs.enableFileLog) {
+    transportList.push(fileTransport);
+  }
+}
+if (transportList.length === 0) {
+  transportList.push(
+    new transports.Stream({ stream: process.stdout, silent: true }),
+  );
+}
+
 // Create logger
 const logger: Logger = createLogger({
   // Asign store mechanisms
-  transports: [
-    // By files
-    new transports.File({
-      maxsize: config.constants.winston.maxBitsPerFile,
-      maxFiles: config.constants.winston.maxFiles,
-      filename: `logs/log.log`,
-      // Set format
-      format: format.combine(
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        format.metadata(),
-        format.printf((info) => {
-          return `[${info.metadata.timestamp}] [${info.level.toUpperCase()}:${info.metadata.category}] \n  → ${
-            info.message
-          } ${
-            info.metadata.content
-              ? `\n  → ${JSON.stringify(info.metadata.content, null, 2).replace(/\n/g, '\n    ')}`
-              : ''
-          }`;
-        }),
-      ),
-    }),
-
-    // By console
-    new transports.Console({
-      // Set format
-      format: format.combine(
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        format.metadata(),
-        format.printf((info) => {
-          let label = info.level.toUpperCase();
-          // Set colors
-          switch (info.level.toUpperCase()) {
-            case 'INFO':
-              label = `\x1b[37m[${label}]`;
-              break;
-            case 'WARN':
-              label = `\x1b[33m[${label}]`;
-              break;
-            case 'ERROR':
-              label = `\x1b[31m[${label}]`;
-              break;
-            default:
-          }
-          return `\x1b[32m[${info.metadata.timestamp}] ${label} \x1b[36m[${
-            info.metadata.type
-          }:${info.metadata.category}] \x1b[37m\n  → ${info.message} ${
-            info.metadata.content
-              ? `\n  → ${JSON.stringify(info.metadata.content, null, 2).replace(/\n/g, '\n    ')}`
-              : ''
-          }`;
-        }),
-      ),
-    }),
-  ],
+  transports: transportList,
 });
 
 // Types
@@ -68,7 +84,7 @@ const types = {
 
 // Info
 function info(
-  message,
+  message: string,
   type = types.SYSTEM,
   category = 'default',
   content = null,
@@ -82,7 +98,7 @@ function info(
 
 // Warning
 function warn(
-  message,
+  message: string,
   type = types.SYSTEM,
   category = 'default',
   content = null,
@@ -96,7 +112,7 @@ function warn(
 
 // Error
 function error(
-  message,
+  message: string,
   type = types.SYSTEM,
   category = 'default',
   content = null,
