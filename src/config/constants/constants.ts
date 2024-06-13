@@ -22,14 +22,14 @@ export const constants: ConstantsDto = {
     // Log all user responses
     logAllUserResponses: false,
     // Log warning responses
-    logWarningUserResponses: true,
+    logWarningUserResponses: false,
   },
   request: {
     // Response with error
     responseWithError: true,
     // Response with error stack
-    responseWithErrorStack: true,
+    responseWithErrorStack: false,
     // Response warnings with errors
-    responseWarningsWithError: true,
+    responseWarningsWithError: false,
   },
 };

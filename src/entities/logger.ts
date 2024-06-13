@@ -11,7 +11,7 @@ const fileTransport = new transports.File({
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.metadata(),
     format.printf((info) => {
-      return `[${info.metadata.timestamp}] [${info.level.toUpperCase()}:${info.metadata.category}] \n  → ${
+      return `[${info.metadata.timestamp}] [${info.level.toUpperCase()}] [${info.metadata.type}:${info.metadata.category}] \n  → ${
         info.message
       } ${
         info.metadata.content
