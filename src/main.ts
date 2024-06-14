@@ -1,12 +1,12 @@
 import { config as dotenvConfig } from 'dotenv';
 
 // Config envs
-dotenvConfig();
+dotenvConfig({ path: `.env.${process.env.NODE_ENV || ''}` });
 
+import { config } from '@src/config/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@src/app.module';
 import { SwaggerBuilder } from '@src/entities/swaggerBuilder';
-import { config } from '@src/config/config';
 import { validationConfig } from './entities/validationConfig';
 import { InputDataValidator } from './entities/inputDataValidator';
 import { HandlerResponse } from './entities/handlerError';

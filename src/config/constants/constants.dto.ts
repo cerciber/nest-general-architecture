@@ -2,6 +2,7 @@ export class ConstantsDto {
   validations: {
     whitelist: boolean;
     forbidNonWhitelisted: boolean;
+    validEnviroments: string[];
   };
   logs: {
     maxBitsPerFile: number;

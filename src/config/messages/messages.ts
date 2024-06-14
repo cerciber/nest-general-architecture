@@ -21,6 +21,7 @@ export const messages: MessagesDto = {
       noFoundMessage: 'Path not found.',
       unhandlerErrorMessage: 'An unhandled error occurred.',
       noTraceAvalible: 'No trace available.',
+      noValidEnviroment: 'Environment Not valid.',
     },
   },
 };

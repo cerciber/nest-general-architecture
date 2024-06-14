@@ -18,6 +18,7 @@ export class MessagesDto {
       noFoundMessage: string;
       unhandlerErrorMessage: string;
       noTraceAvalible: string;
+      noValidEnviroment: string;
     };
   };
 }

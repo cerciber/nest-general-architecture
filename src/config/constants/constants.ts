@@ -7,6 +7,8 @@ export const constants: ConstantsDto = {
     whitelist: true,
     //  Throw not allowed data from validations
     forbidNonWhitelisted: true,
+    // Valid enviroments
+    validEnviroments: ['development', 'staging', 'production'],
   },
   logs: {
     // Max log bits per file
