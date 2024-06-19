@@ -1,10 +1,10 @@
+import { constants } from '@src/config/constants/constants';
 import { createLogger, format, transports, Logger } from 'winston';
-import { config } from '@src/config/config';
 
 // By files
 const fileTransport = new transports.File({
-  maxsize: config.constants.logs.maxBitsPerFile,
-  maxFiles: config.constants.logs.maxFiles,
+  maxsize: constants.logs.maxBitsPerFile,
+  maxFiles: constants.logs.maxFiles,
   filename: `logs/log.log`,
   // Set format
   format: format.combine(
@@ -56,11 +56,11 @@ const consoleTransport = new transports.Console({
 
 // Asign store mechanisms
 const transportList = [];
-if (config.constants.logs.enableLogs) {
-  if (config.constants.logs.enableConsoleLog) {
+if (constants.logs.enableLogs) {
+  if (constants.logs.enableConsoleLog) {
     transportList.push(consoleTransport);
   }
-  if (config.constants.logs.enableFileLog) {
+  if (constants.logs.enableFileLog) {
     transportList.push(fileTransport);
   }
 }

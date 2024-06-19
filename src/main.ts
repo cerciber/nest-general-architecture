@@ -1,21 +1,13 @@
-import { config as dotenvConfig } from 'dotenv';
-
-// Config envs
-dotenvConfig({ path: `.env.${process.env.NODE_ENV || ''}` });
-
+import { envsValid } from '@src/utils/configEnvs';
 import { config } from '@src/config/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@src/app.module';
 import { SwaggerBuilder } from '@src/entities/swaggerBuilder';
-import { validationConfig } from './entities/validationConfig';
-import { InputDataValidator } from './entities/inputDataValidator';
-import { HandlerResponse } from './entities/handlerError';
+import { validationConfig } from '@src/entities/validationConfig';
+import { HandlerResponse } from '@src/entities/handlerError';
 
 async function bootstrap() {
   try {
-    // Validate start input data
-    await new InputDataValidator().validateEnvs();
-
     // Create app
     const app = await NestFactory.create(AppModule);
 
@@ -33,4 +25,6 @@ async function bootstrap() {
   }
 }
 
-bootstrap();
+if (envsValid) {
+  bootstrap();
+}

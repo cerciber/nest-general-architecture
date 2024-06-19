@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 import { LaunchError } from '@src/common/exceptions/responseError/launchError';
 import { ResponseError } from '@src/common/exceptions/responseError/responseError';
-import { config } from '@src/config/config';
+import { messages } from '@src/config/messages/messages';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
 import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
 import Logger from '@src/entities/logger';
@@ -14,15 +14,14 @@ export class HandlerResponse {
       response = err.response;
     } else {
       response = {
-        message: config.messages.labels.unhandlerErrorLabel,
+        message: messages.labels.unhandlerErrorLabel,
         error: {
           id: v4(),
           message:
-            err?.message ??
-            config.messages.custom.default.unhandlerErrorMessage,
+            err?.message ?? messages.custom.default.unhandlerErrorMessage,
           stack: err?.stack?.split('\n') ?? [
-            `Error: ${config.messages.custom.default.unhandlerErrorMessage}`,
-            `    at ${config.messages.custom.default.noTraceAvalible}`,
+            `Error: ${messages.custom.default.unhandlerErrorMessage}`,
+            `    at ${messages.custom.default.noTraceAvalible}`,
           ],
         },
       };
@@ -38,15 +37,14 @@ export class HandlerResponse {
     } else {
       response = {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: config.messages.labels.unhandlerErrorLabel,
+        message: messages.labels.unhandlerErrorLabel,
         error: {
           id: v4(),
           message:
-            err?.message ??
-            config.messages.custom.default.unhandlerErrorMessage,
+            err?.message ?? messages.custom.default.unhandlerErrorMessage,
           stack: err?.stack?.split('\n') ?? [
-            `Error: ${config.messages.custom.default.unhandlerErrorMessage}`,
-            `    at ${config.messages.custom.default.noTraceAvalible}`,
+            `Error: ${messages.custom.default.unhandlerErrorMessage}`,
+            `    at ${messages.custom.default.noTraceAvalible}`,
           ],
         },
       };

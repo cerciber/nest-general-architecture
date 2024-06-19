@@ -2,18 +2,17 @@ import { validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { EnvsDto } from '@src/config/envs/envs.dto';
 import { LaunchError } from '@src/common/exceptions/responseError/launchError';
-import { config } from '@src/config/config';
+import { constants } from '@src/config/constants/constants';
+import { messages } from '@src/config/messages/messages';
 
 export class InputDataValidator {
   public validateEnvs() {
     if (
-      !config.constants.validations.validEnviroments.includes(
-        process.env.NODE_ENV,
-      )
+      !constants.validations.validEnviroments.includes(process.env.NODE_ENV)
     ) {
       throw new LaunchError(
-        config.messages.labels.startErrorLabel,
-        config.messages.custom.default.noValidEnviroment,
+        messages.labels.startErrorLabel,
+        messages.custom.default.noValidEnviroment,
       );
     }
 
@@ -25,10 +24,7 @@ export class InputDataValidator {
     });
 
     if (errors.length > 0) {
-      throw new LaunchError(
-        config.messages.labels.startErrorLabel,
-        errors.toString(),
-      );
+      throw new LaunchError(messages.labels.startErrorLabel, errors.toString());
     }
     return validatedConfig;
   }

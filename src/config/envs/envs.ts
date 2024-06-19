@@ -1,9 +1,5 @@
 import { EnvsDto } from './envs.dto';
 
-function getEnvs(): EnvsDto {
-  return {
-    PORT: Number(process.env.PORT),
-  };
-}
-
-export const envs = getEnvs();
+export const envs: EnvsDto = {
+  PORT: Number(process.env.PORT),
+};
