@@ -7,6 +7,12 @@ export const paths: PathsDto = {
     public: true,
     subpaths: {},
   },
+  docs: {
+    path: 'docs',
+    tag: 'Docs',
+    public: true,
+    subpaths: {},
+  },
   default: {
     path: '*',
     tag: 'Default',

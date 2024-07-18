@@ -1,16 +1,15 @@
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { config } from '@src/config/config';
 
 export class SwaggerBuilder {
   constructor(app: INestApplication<any>) {
-    const config = new DocumentBuilder()
-      .setTitle('Nest General Architecture')
-      .setDescription(
-        'General architecture for Nest.js with TypeScript implementing 3 Layered Architecture. Node.js.',
-      )
-      .setVersion('1.0')
+    const documentConfig = new DocumentBuilder()
+      .setTitle(config.docs.title)
+      .setDescription(config.docs.description)
+      .setVersion(config.docs.version)
       .build();
-    const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('docs', app, document);
+    const document = SwaggerModule.createDocument(app, documentConfig);
+    SwaggerModule.setup(config.paths.docs.path, app, document);
   }
 }

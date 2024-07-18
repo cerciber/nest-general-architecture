@@ -54,6 +54,12 @@ root
 ├── (other root-level files)
 ```
 
+### Definitions
+**Modules:** Agrupate related components.\
+**Controllers:** Manage requests and responses.\
+**Services:** Manage bussiness logic.\
+**DTO's:** Data objects to transfer and validate data on application.
+
 ### Commands to create 3 layered components
 
 **Create module**

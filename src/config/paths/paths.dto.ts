@@ -7,6 +7,7 @@ export class PathDto<Subpaths> {
 
 export class PathsDto {
   root: PathDto<object>;
+  docs: PathDto<object>;
   default: PathDto<object>;
   test: PathDto<{
     success: PathDto<object>;

@@ -1,6 +1,11 @@
 import { ConstantsDto } from './constants.dto';
 
 export const constants: ConstantsDto = {
+  // Envs configurations
+  envs: {
+    enviroment: process.env.NODE_ENV ?? '',
+    envFilePath: `.env.${process.env.NODE_ENV ?? ''}`,
+  },
   // Validation options
   validations: {
     // Remove not require data from validations

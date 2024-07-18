@@ -1,4 +1,8 @@
 export class ConstantsDto {
+  envs: {
+    enviroment: string;
+    envFilePath: string;
+  };
   validations: {
     whitelist: boolean;
     forbidNonWhitelisted: boolean;

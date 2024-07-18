@@ -6,11 +6,12 @@ import { ResponseInterceptor } from '@src/common/interceptors/response/response.
 import { TestModule } from '@src/modules/test/test.module';
 import { NotFoundModule } from '@src/modules/notFound/notFound.module';
 import { ConfigModule } from '@nestjs/config';
+import { constants } from './config/constants/constants';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.env.${process.env.NODE_ENV || ''}`,
+      envFilePath: constants.envs.envFilePath,
       isGlobal: true,
     }),
     TestModule,
@@ -25,4 +26,4 @@ import { ConfigModule } from '@nestjs/config';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
