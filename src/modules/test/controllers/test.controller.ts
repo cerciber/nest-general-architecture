@@ -1,7 +1,7 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
 import { config } from '@src/config/config';
 import { HttpStatus } from '@nestjs/common';
-import { ResponseError } from '@src/common/exceptions/responseError/responseError';
+import { ResponseError } from '@src/common/exceptions/responseError';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
 import { BodyMessageResponseDto } from '@src/dto/bodyMessageResponse.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -9,7 +9,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags(config.paths.test.tag)
 @Controller(config.paths.test.path)
 export class TestController {
-  constructor() {}
+  constructor() { }
 
   @Get(config.paths.test.subpaths.success.path)
   @HttpCode(HttpStatus.OK)

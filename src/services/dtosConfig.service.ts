@@ -1,8 +1,9 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Injectable, ValidationPipe } from '@nestjs/common';
 import { config } from '@src/config/config';
 
-export class validationConfig {
-  public build(): ValidationPipe {
+@Injectable()
+export class DTOsConfigService {
+  public validationPipe(): ValidationPipe {
     return new ValidationPipe({
       whitelist: config.constants.validations.whitelist,
       forbidNonWhitelisted: config.constants.validations.forbidNonWhitelisted,

@@ -1,20 +1,24 @@
 import { HttpStatus } from '@nestjs/common';
-import { LaunchError } from '@src/common/exceptions/responseError/launchError';
-import { ResponseError } from '@src/common/exceptions/responseError/responseError';
+import { LaunchError } from '@src/common/exceptions/launchError';
+import { ResponseError } from '@src/common/exceptions/responseError';
 import { messages } from '@src/config/messages/messages';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
 import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
-import Logger from '@src/entities/logger';
+import { LoggerService } from '@src/services/logger.service';
 import { v4 } from 'uuid';
+import { Injectable } from '@nestjs/common';
 
-export class HandlerResponse {
-  public static systemHandler(err: any) {
+@Injectable()
+export class HandlerErrorService {
+  constructor(private readonly loggerService: LoggerService) { }
+
+  public systemHandler(err: any, customMessage?: string) {
     let response: LaunchErrorResponseDto;
     if (err instanceof LaunchError) {
       response = err.response;
     } else {
       response = {
-        message: messages.labels.unhandlerErrorLabel,
+        message: customMessage ?? messages.labels.unhandlerErrorLabel,
         error: {
           id: v4(),
           message:
@@ -26,11 +30,11 @@ export class HandlerResponse {
         },
       };
     }
-    Logger.error(response.message, Logger.types.SYSTEM, 'INIT', response);
+    this.loggerService.error(response.message, 'SYSTEM', 'INIT', response);
     return response;
   }
 
-  public static responseHandler(err: any) {
+  public responseHandler(err: any) {
     let response: ErrorResponseDto;
     if (err instanceof ResponseError) {
       response = err.response;

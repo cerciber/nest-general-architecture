@@ -1,11 +1,16 @@
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { ConfigService as NestConfigService } from '@nestjs/config';
+import { EnvsDto } from '@src/config/envs/envs.dto';
 import { validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { EnvsDto } from '@src/config/envs/envs.dto';
-import { LaunchError } from '@src/common/exceptions/responseError/launchError';
+import { LaunchError } from '@src/common/exceptions/launchError';
 import { constants } from '@src/config/constants/constants';
 import { messages } from '@src/config/messages/messages';
 
-export class InputDataValidator {
+@Injectable()
+export class EnvsConfigService extends NestConfigService {
+  private envConfig: EnvsDto;
+
   public validateEnvs() {
     if (
       !constants.validations.validEnviroments.includes(process.env.NODE_ENV)
@@ -16,9 +21,11 @@ export class InputDataValidator {
       );
     }
 
+
     const validatedConfig = plainToInstance(EnvsDto, process.env, {
       enableImplicitConversion: true,
     });
+
     const errors = validateSync(validatedConfig, {
       skipMissingProperties: false,
     });
@@ -26,6 +33,10 @@ export class InputDataValidator {
     if (errors.length > 0) {
       throw new LaunchError(messages.labels.startErrorLabel, errors.toString());
     }
-    return validatedConfig;
+    this.envConfig = validatedConfig;
+  }
+
+  get env(): EnvsDto {
+    return this.envConfig;
   }
 }
