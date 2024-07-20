@@ -1,6 +1,4 @@
-import { PathsDto } from './paths.dto';
-
-export const paths: PathsDto = {
+export const paths = {
   root: {
     path: '',
     tag: 'Root',

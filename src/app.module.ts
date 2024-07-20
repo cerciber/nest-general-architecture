@@ -11,6 +11,7 @@ import { EnvsService } from './services/envs.service';
 import { DTOsService } from './services/dtos.service';
 import { statics } from '@src/config/statics/statics';
 import { FakeApiModule } from './modules/fake-api/fake-api.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FakeApiModule } from './modules/fake-api/fake-api.module';
     TestModule,
     NotFoundModule,
     FakeApiModule,
+    //MongooseModule.forRoot('mongodb://localhost/nest'),
   ],
   controllers: [AppController],
   providers: [

@@ -1,8 +1,8 @@
 import { createLogger, format, transports, Logger } from 'winston';
 import { Injectable } from '@nestjs/common';
 import * as Transport from 'winston-transport';
-import { BodyResponseDto } from '@src/dto/body-response.dto';
-import { ErrorResponseDto } from '@src/dto/error-response.dto';
+import { BodyResponseDto } from '@src/dtos/body-response.dto';
+import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { statics } from '@src/config/statics/statics';
 
 type logLevel = 'INFO' | 'WARN' | 'ERROR';

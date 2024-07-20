@@ -1,6 +1,4 @@
-import { MessagesDto } from './messages.dto';
-
-export const messages: MessagesDto = {
+export const messages = {
   labels: {
     successLabel: 'Information has been retrieved successfully.',
     errorLabel: 'An error occurred while retrieving information.',

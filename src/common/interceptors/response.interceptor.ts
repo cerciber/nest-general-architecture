@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { BodyResponseDto } from '@src/dto/body-response.dto';
-import { ErrorResponseDto } from '@src/dto/error-response.dto';
+import { BodyResponseDto } from '@src/dtos/body-response.dto';
+import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { ErrorService } from '@src/services/error.service';
 import { LoggerService } from '@src/services/logger.service';
 

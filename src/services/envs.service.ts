@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
-import { EnvsDto } from '@src/config/envs/envs.dto';
+import { EnvsDto } from '@src/dtos/envs.dto';
 import { validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { LaunchError } from '@src/common/exceptions/launch-error';

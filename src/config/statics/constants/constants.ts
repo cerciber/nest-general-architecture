@@ -1,6 +1,4 @@
-import { ConstantsDto } from './constants.dto';
-
-export const constants: ConstantsDto = {
+export const constants = {
   // Envs configurations
   envs: {
     processEnv: process.env,

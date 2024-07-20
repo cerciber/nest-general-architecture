@@ -1,7 +1,7 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
 import { statics } from '@src/config/statics/statics';
 import { HttpStatus } from '@nestjs/common';
-import { BodyMessageResponseDto } from '@src/dto/body-message-response.dto';
+import { BodyMessageResponseDto } from '@src/dtos/body-message-response.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(statics.paths.root.tag)

@@ -10,7 +10,7 @@ root
 ├── src
 │ ├── common
 │ │ ├── decorators
-│ │ ├── dto
+│ │ ├── dtos
 │ │ ├── exceptions
 │ │ ├── filters
 │ │ ├── guards
@@ -24,15 +24,15 @@ root
 │ ├── modules
 │ │ ├── module1
 │ │ │ ├── controllers
-│ │ │ ├── dto
-│ │ │ ├── entities
+│ │ │ ├── dtos
+│ │ │ ├── entities/schemas
 │ │ │ ├── services
 │ │ │ └── auth.module1.ts
 │ │ │
 │ │ ├── module2
 │ │ │ ├── controllers
-│ │ │ ├── dto
-│ │ │ ├── entities
+│ │ │ ├── dtos
+│ │ │ ├── entities/schemas
 │ │ │ ├── services
 │ │ │ └── users.module2.ts
 │ │ │

@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ErrorResponseDto } from '@src/dto/error-response.dto';
+import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { statics } from '@src/config/statics/statics';
 
