@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { NotFoundController } from './controllers/not-found.controller';
+import { NotFoundController } from './not-found.controller';
 
 @Module({
   imports: [],

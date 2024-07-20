@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { FakeApiController } from './controllers/fake-api/fake-api.controller';
+import { FakeApiController } from './fake-api.controller';
 
 @Module({
   controllers: [FakeApiController]
 })
-export class FakeApiModule {}
+export class FakeApiModule { }
