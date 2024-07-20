@@ -6,7 +6,7 @@ import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
 import { LoggerService } from '@src/services/logger.service';
 import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
-import { statics } from '@src/config/statics';
+import { statics } from '@src/config/statics/statics';
 
 @Injectable()
 export class ErrorService {

@@ -1,5 +1,6 @@
 export class ConstantsDto {
   envs: {
+    processEnv: NodeJS.ProcessEnv;
     enviroment: string;
     envFilePath: string;
   };

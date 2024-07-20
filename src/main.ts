@@ -5,7 +5,7 @@ import { DTOsService } from '@src/services/dtos.service';
 import { ErrorService } from '@src/services/error.service';
 import { LoggerService } from '@src/services/logger.service';
 import { EnvsService } from '@src/services/envs.service';
-import { statics } from '@src/config/statics';
+import { statics } from '@src/config/statics/statics';
 
 async function bootstrap() {
   let loggerService: LoggerService

@@ -1,6 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { statics } from '@src/config/statics';
+import { statics } from '@src/config/statics/statics';
 
 export class SwaggerService {
   constructor(

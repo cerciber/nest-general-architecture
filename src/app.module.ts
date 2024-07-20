@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { LoggerService } from './services/logger.service';
 import { EnvsService } from './services/envs.service';
 import { DTOsService } from './services/dtos.service';
-import { statics } from '@src/config/statics';
+import { statics } from '@src/config/statics/statics';
 
 @Module({
   imports: [

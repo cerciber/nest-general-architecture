@@ -1,5 +1,5 @@
 import { Injectable, ValidationPipe } from '@nestjs/common';
-import { statics } from '@src/config/statics';
+import { statics } from '@src/config/statics/statics';
 
 @Injectable()
 export class DTOsService {

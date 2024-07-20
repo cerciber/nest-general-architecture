@@ -4,7 +4,7 @@ import { EnvsDto } from '@src/config/envs/envs.dto';
 import { validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { LaunchError } from '@src/common/exceptions/launchError';
-import { statics } from '@src/config/statics';
+import { statics } from '@src/config/statics/statics';
 
 @Injectable()
 export class EnvsService extends NestConfigService {
@@ -12,7 +12,7 @@ export class EnvsService extends NestConfigService {
 
   public validateEnvs() {
     if (
-      !statics.constants.validations.validEnviroments.includes(process.env.NODE_ENV)
+      !statics.constants.validations.validEnviroments.includes(statics.constants.envs.enviroment)
     ) {
       throw new LaunchError(
         statics.messages.labels.startErrorLabel,
@@ -21,7 +21,7 @@ export class EnvsService extends NestConfigService {
     }
 
 
-    const validatedConfig = plainToInstance(EnvsDto, process.env, {
+    const validatedConfig = plainToInstance(EnvsDto, statics.constants.envs.processEnv, {
       enableImplicitConversion: true,
     });
 

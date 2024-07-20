@@ -3,6 +3,7 @@ import { ConstantsDto } from './constants.dto';
 export const constants: ConstantsDto = {
   // Envs configurations
   envs: {
+    processEnv: process.env,
     enviroment: process.env.NODE_ENV ?? '',
     envFilePath: `.env.${process.env.NODE_ENV ?? ''}`,
   },

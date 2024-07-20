@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
-import { statics } from '@src/config/statics';
+import { statics } from '@src/config/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { BodyMessageResponseDto } from '@src/dto/bodyMessageResponse.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
