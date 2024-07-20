@@ -1,5 +1,5 @@
-import { BasicResponseDto } from '@src/dto/basicResponse.dto';
-import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
+import { BasicResponseDto } from '@src/dto/basic-response.dto';
+import { ErrorResponseDto } from '@src/dto/error-response.dto';
 import { v4 } from 'uuid';
 
 export class ResponseError extends Error {

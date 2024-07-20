@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { NotFoundController } from './controllers/notFound.controller';
+import { NotFoundController } from './controllers/not-found.controller';
 
 @Module({
   imports: [],
   controllers: [NotFoundController],
   providers: [],
 })
-export class NotFoundModule {}
+export class NotFoundModule { }

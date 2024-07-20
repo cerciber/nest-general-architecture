@@ -1,4 +1,4 @@
-import { BasicResponseDto } from './basicResponse.dto';
+import { BasicResponseDto } from './basic-response.dto';
 import { IsDefined, IsObject } from 'class-validator';
 import { ErrorDto } from './error.dto';
 

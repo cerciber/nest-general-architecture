@@ -3,7 +3,7 @@ import { ConfigService as NestConfigService } from '@nestjs/config';
 import { EnvsDto } from '@src/config/envs/envs.dto';
 import { validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { LaunchError } from '@src/common/exceptions/launchError';
+import { LaunchError } from '@src/common/exceptions/launch-error';
 import { statics } from '@src/config/statics/statics';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { IsObject, IsDefined } from 'class-validator';
-import { BasicResponseDto } from './basicResponse.dto';
+import { BasicResponseDto } from './basic-response.dto';
 
 export class BodyResponseDto extends BasicResponseDto {
   @IsDefined()

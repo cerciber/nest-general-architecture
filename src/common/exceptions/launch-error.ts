@@ -1,4 +1,4 @@
-import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
+import { LaunchErrorResponseDto } from '@src/dto/launch-response.dto';
 import { v4 } from 'uuid';
 
 export class LaunchError extends Error {

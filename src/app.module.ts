@@ -4,12 +4,13 @@ import { ErrorService } from '@src/services/error.service';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@src/common/interceptors/response.interceptor';
 import { TestModule } from '@src/modules/test/test.module';
-import { NotFoundModule } from '@src/modules/notFound/notFound.module';
+import { NotFoundModule } from '@src/modules/not-found/not-found.module';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerService } from './services/logger.service';
 import { EnvsService } from './services/envs.service';
 import { DTOsService } from './services/dtos.service';
 import { statics } from '@src/config/statics/statics';
+import { FakeApiModule } from './modules/fake-api/fake-api.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { statics } from '@src/config/statics/statics';
     }),
     TestModule,
     NotFoundModule,
+    FakeApiModule,
   ],
   controllers: [AppController],
   providers: [
