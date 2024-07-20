@@ -1,13 +1,13 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
-import { config } from '@src/config/config';
+import { statics } from '@src/config/statics';
 import { HttpStatus } from '@nestjs/common';
 import { BodyMessageResponseDto } from '@src/dto/bodyMessageResponse.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
-@ApiTags(config.paths.root.tag)
-@Controller(config.paths.root.path)
+@ApiTags(statics.paths.root.tag)
+@Controller(statics.paths.root.path)
 export class AppController {
-  constructor() {}
+  constructor() { }
 
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -18,9 +18,9 @@ export class AppController {
   getRootMessage(): BodyMessageResponseDto {
     return {
       status: HttpStatus.OK,
-      message: config.messages.labels.successLabel,
+      message: statics.messages.labels.successLabel,
       body: {
-        message: config.messages.custom.root.rootMessage,
+        message: statics.messages.custom.root.rootMessage,
       },
     };
   }

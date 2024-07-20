@@ -8,13 +8,13 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BodyResponseDto } from '@src/dto/bodyResponse.dto';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
-import { HandlerErrorService } from '@src/services/handlerError.service';
+import { ErrorService } from '@src/services/error.service';
 import { LoggerService } from '@src/services/logger.service';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
   constructor(
-    private readonly handlerErrorService: HandlerErrorService,
+    private readonly errorService: ErrorService,
     private readonly loggerService: LoggerService
   ) { }
 
@@ -22,7 +22,7 @@ export class ResponseInterceptor implements NestInterceptor {
     const res = context.switchToHttp().getResponse();
     return next.handle().pipe(
       catchError((err) => {
-        return of(this.handlerErrorService.responseHandler(err));
+        return of(this.errorService.responseHandler(err));
       }),
       tap((response: BodyResponseDto | ErrorResponseDto) => {
         this.loggerService.logResponse(response);

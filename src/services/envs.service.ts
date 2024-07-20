@@ -1,23 +1,22 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService as NestConfigService } from '@nestjs/config';
 import { EnvsDto } from '@src/config/envs/envs.dto';
 import { validateSync } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { LaunchError } from '@src/common/exceptions/launchError';
-import { constants } from '@src/config/constants/constants';
-import { messages } from '@src/config/messages/messages';
+import { statics } from '@src/config/statics';
 
 @Injectable()
-export class EnvsConfigService extends NestConfigService {
+export class EnvsService extends NestConfigService {
   private envConfig: EnvsDto;
 
   public validateEnvs() {
     if (
-      !constants.validations.validEnviroments.includes(process.env.NODE_ENV)
+      !statics.constants.validations.validEnviroments.includes(process.env.NODE_ENV)
     ) {
       throw new LaunchError(
-        messages.labels.startErrorLabel,
-        messages.custom.default.noValidEnviroment,
+        statics.messages.labels.startErrorLabel,
+        statics.messages.custom.default.noValidEnviroment,
       );
     }
 
@@ -31,7 +30,7 @@ export class EnvsConfigService extends NestConfigService {
     });
 
     if (errors.length > 0) {
-      throw new LaunchError(messages.labels.startErrorLabel, errors.toString());
+      throw new LaunchError(statics.messages.labels.startErrorLabel, errors.toString());
     }
     this.envConfig = validatedConfig;
   }

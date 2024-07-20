@@ -1,10 +1,9 @@
-import { constants } from '@src/config/constants/constants';
 import { createLogger, format, transports, Logger } from 'winston';
 import { Injectable } from '@nestjs/common';
 import * as Transport from 'winston-transport';
 import { BodyResponseDto } from '@src/dto/bodyResponse.dto';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
-import { config } from '@src/config/config';
+import { statics } from '@src/config/statics';
 
 type logLevel = 'INFO' | 'WARN' | 'ERROR';
 type LogType = 'SYSTEM' | 'USER';
@@ -20,8 +19,8 @@ export class LoggerService {
 
   private createFileTransport(): Transport {
     return new transports.File({
-      maxsize: constants.logs.maxBitsPerFile,
-      maxFiles: constants.logs.maxFiles,
+      maxsize: statics.constants.logs.maxBitsPerFile,
+      maxFiles: statics.constants.logs.maxFiles,
       filename: `logs/log.log`,
       // Set format
       format: format.combine(
@@ -71,11 +70,11 @@ export class LoggerService {
 
   private getTransports(): Transport[] {
     const transportList: Transport[] = [];
-    if (constants.logs.enableLogs) {
-      if (constants.logs.enableConsoleLog) {
+    if (statics.constants.logs.enableLogs) {
+      if (statics.constants.logs.enableConsoleLog) {
         transportList.push(this.createConsoleTransport());
       }
-      if (constants.logs.enableFileLog) {
+      if (statics.constants.logs.enableFileLog) {
         transportList.push(this.createFileTransport());
       }
     }
@@ -142,8 +141,8 @@ export class LoggerService {
       level = 'ERROR';
     }
     if (
-      config.constants.logs.logAllUserResponses ||
-      (config.constants.logs.logWarningUserResponses && level === 'WARN') ||
+      statics.constants.logs.logAllUserResponses ||
+      (statics.constants.logs.logWarningUserResponses && level === 'WARN') ||
       level === 'ERROR'
     ) {
       switch (level) {
@@ -159,12 +158,12 @@ export class LoggerService {
       }
     }
     if (level === 'WARN') {
-      if (config.constants.request.responseWarningsWithError) {
+      if (statics.constants.request.responseWarningsWithError) {
         if (
-          !config.constants.request.responseWithErrorStack &&
+          !statics.constants.request.responseWithErrorStack &&
           'error' in response
         ) {
-          if (config.constants.request.responseWithError && 'error' in response) {
+          if (statics.constants.request.responseWithError && 'error' in response) {
             delete (response as ErrorResponseDto).error.stack;
           } else {
             delete (response as ErrorResponseDto).error;
@@ -175,10 +174,10 @@ export class LoggerService {
       }
     } else if (level === 'ERROR') {
       if (
-        !config.constants.request.responseWithErrorStack &&
+        !statics.constants.request.responseWithErrorStack &&
         'error' in response
       ) {
-        if (config.constants.request.responseWithError && 'error' in response) {
+        if (statics.constants.request.responseWithError && 'error' in response) {
           delete (response as ErrorResponseDto).error.stack;
         } else {
           delete (response as ErrorResponseDto).error;

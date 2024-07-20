@@ -1,17 +1,19 @@
 import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { config } from '@src/config/config';
+import { statics } from '@src/config/statics';
 
 export class SwaggerService {
-  constructor(private app: INestApplication) { }
+  constructor(
+    private readonly app: INestApplication
+  ) { }
 
   public setupSwagger() {
     const documentConfig = new DocumentBuilder()
-      .setTitle(config.docs.title)
-      .setDescription(config.docs.description)
-      .setVersion(config.docs.version)
+      .setTitle(statics.docs.title)
+      .setDescription(statics.docs.description)
+      .setVersion(statics.docs.version)
       .build();
     const document = SwaggerModule.createDocument(this.app, documentConfig);
-    SwaggerModule.setup(config.paths.docs.path, this.app, document);
+    SwaggerModule.setup(statics.paths.docs.path, this.app, document);
   }
 }

@@ -1,15 +1,15 @@
 import { HttpStatus } from '@nestjs/common';
 import { LaunchError } from '@src/common/exceptions/launchError';
 import { ResponseError } from '@src/common/exceptions/responseError';
-import { messages } from '@src/config/messages/messages';
 import { ErrorResponseDto } from '@src/dto/errorResponse.dto';
 import { LaunchErrorResponseDto } from '@src/dto/launchResponse.dto';
 import { LoggerService } from '@src/services/logger.service';
 import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
+import { statics } from '@src/config/statics';
 
 @Injectable()
-export class HandlerErrorService {
+export class ErrorService {
   constructor(private readonly loggerService: LoggerService) { }
 
   public systemHandler(err: any, customMessage?: string) {
@@ -18,14 +18,14 @@ export class HandlerErrorService {
       response = err.response;
     } else {
       response = {
-        message: customMessage ?? messages.labels.unhandlerErrorLabel,
+        message: customMessage ?? statics.messages.labels.unhandlerErrorLabel,
         error: {
           id: v4(),
           message:
-            err?.message ?? messages.custom.default.unhandlerErrorMessage,
+            err?.message ?? statics.messages.custom.default.unhandlerErrorMessage,
           stack: err?.stack?.split('\n') ?? [
-            `Error: ${messages.custom.default.unhandlerErrorMessage}`,
-            `    at ${messages.custom.default.noTraceAvalible}`,
+            `Error: ${statics.messages.custom.default.unhandlerErrorMessage}`,
+            `    at ${statics.messages.custom.default.noTraceAvalible}`,
           ],
         },
       };
@@ -41,14 +41,14 @@ export class HandlerErrorService {
     } else {
       response = {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: messages.labels.unhandlerErrorLabel,
+        message: statics.messages.labels.unhandlerErrorLabel,
         error: {
           id: v4(),
           message:
-            err?.message ?? messages.custom.default.unhandlerErrorMessage,
+            err?.message ?? statics.messages.custom.default.unhandlerErrorMessage,
           stack: err?.stack?.split('\n') ?? [
-            `Error: ${messages.custom.default.unhandlerErrorMessage}`,
-            `    at ${messages.custom.default.noTraceAvalible}`,
+            `Error: ${statics.messages.custom.default.unhandlerErrorMessage}`,
+            `    at ${statics.messages.custom.default.noTraceAvalible}`,
           ],
         },
       };
