@@ -3,9 +3,9 @@ import { AppModule } from '@src/app.module';
 import { SwaggerService } from '@src/services/swagger.service';
 import { DTOsService } from '@src/services/dtos.service';
 import { ErrorService } from '@src/services/error.service';
-import { LoggerService } from '@src/services/logger.service';
-import { EnvsService } from '@src/services/envs.service';
-import { statics } from '@src/config/statics/statics';
+import { LoggerService } from '@src/modules/logger/logger.service';
+import { statics } from '@src/statics/statics';
+import { CustomConfigService } from '@src/modules/custom-config/custom-config.service';
 
 async function bootstrap() {
   let loggerService: LoggerService
@@ -16,11 +16,7 @@ async function bootstrap() {
     // Create app
     loggerService.info(`Creating app...`, 'SYSTEM', 'INIT');
     const app = await NestFactory.create(AppModule, { abortOnError: false, logger: false });
-
-    // Validate envs
-    loggerService.info(`Validating envs...`, 'SYSTEM', 'INIT');
-    const envsConfigService = app.get(EnvsService);
-    envsConfigService.validateEnvs();
+    loggerService.info(`App created.`, 'SYSTEM', 'INIT');
 
     // Apply configurations
     loggerService.info(`Applying app configurations...`, 'SYSTEM', 'INIT');
@@ -29,8 +25,9 @@ async function bootstrap() {
 
     // Run server
     loggerService.info(`Running server...`, 'SYSTEM', 'INIT');
-    await app.listen(envsConfigService.env.PORT);
-    loggerService.info(`Server running on port ${envsConfigService.env.PORT}.`, 'SYSTEM', 'INIT');
+    const customConfigService = app.get(CustomConfigService);
+    await app.listen(customConfigService.env.PORT);
+    loggerService.info(`Server running on port ${customConfigService.env.PORT}.`, 'SYSTEM', 'INIT');
 
   } catch (err) {
     if (loggerService) {

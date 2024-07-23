@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
-import { statics } from '@src/config/statics/statics';
+import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';

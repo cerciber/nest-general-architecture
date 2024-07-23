@@ -9,7 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { ErrorService } from '@src/services/error.service';
-import { LoggerService } from '@src/services/logger.service';
+import { LoggerService } from '@src/modules/logger/logger.service';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {

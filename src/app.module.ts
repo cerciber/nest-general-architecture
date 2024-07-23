@@ -1,33 +1,23 @@
-import { Module, OnModuleInit } from '@nestjs/common';
-import { AppController } from '@src/controllers/app.controller';
+import { Module } from '@nestjs/common';
 import { ErrorService } from '@src/services/error.service';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@src/common/interceptors/response.interceptor';
-import { TestModule } from '@src/modules/test/test.module';
 import { NotFoundModule } from '@src/modules/not-found/not-found.module';
-import { ConfigModule } from '@nestjs/config';
-import { LoggerService } from './services/logger.service';
-import { EnvsService } from './services/envs.service';
-import { DTOsService } from './services/dtos.service';
-import { statics } from '@src/config/statics/statics';
-import { FakeApiModule } from './modules/fake-api/fake-api.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { DTOsService } from '@src/services/dtos.service';
+import { CustomConfigModule } from '@src/modules/custom-config/custom-config.module';
+import { LoggerModule } from '@src/modules/logger/logger.module';
+import { ApiModule } from '@src/modules/api/api.module';
+import { MongoModule } from '@src/modules/mongo/mongo.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: statics.constants.envs.envFilePath,
-      isGlobal: true,
-    }),
-    TestModule,
+    LoggerModule,
+    CustomConfigModule,
+    MongoModule,
+    ApiModule,
     NotFoundModule,
-    FakeApiModule,
-    //MongooseModule.forRoot('mongodb://localhost/nest'),
   ],
-  controllers: [AppController],
   providers: [
-    EnvsService,
-    LoggerService,
     ErrorService,
     DTOsService,
     {
@@ -36,8 +26,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     },
   ],
   exports: [
-    EnvsService,
-    LoggerService,
     ErrorService,
     DTOsService
   ]

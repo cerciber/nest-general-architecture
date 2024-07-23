@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as Transport from 'winston-transport';
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
-import { statics } from '@src/config/statics/statics';
+import { statics } from '@src/statics/statics';
 
 type logLevel = 'INFO' | 'WARN' | 'ERROR';
 type LogType = 'SYSTEM' | 'USER';

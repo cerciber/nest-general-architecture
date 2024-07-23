@@ -3,10 +3,10 @@ import { LaunchError } from '@src/common/exceptions/launch-error';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { LaunchErrorResponseDto } from '@src/dtos/launch-response.dto';
-import { LoggerService } from '@src/services/logger.service';
+import { LoggerService } from '@src/modules/logger/logger.service';
 import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
-import { statics } from '@src/config/statics/statics';
+import { statics } from '@src/statics/statics';
 
 @Injectable()
 export class ErrorService {
