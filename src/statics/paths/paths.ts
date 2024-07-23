@@ -34,4 +34,16 @@ export const paths = {
       },
     },
   },
+  accounts: {
+    path: 'accounts',
+    tag: 'Accounts',
+    public: true,
+    subpaths: {
+      get: {
+        path: '/',
+        public: true,
+        subpaths: {},
+      },
+    },
+  },
 };
