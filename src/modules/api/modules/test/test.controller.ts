@@ -11,7 +11,6 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 export class TestController {
 
   @Get(statics.paths.test.subpaths.success.path)
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
     type: BodyMessageResponseDto,
@@ -27,7 +26,6 @@ export class TestController {
   }
 
   @Get(statics.paths.test.subpaths.error.path)
-  @HttpCode(HttpStatus.INTERNAL_SERVER_ERROR)
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     type: ErrorResponseDto,

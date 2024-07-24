@@ -21,5 +21,9 @@ export const messages = {
       noTraceAvalible: 'No trace available.',
       noValidEnviroment: 'Environment Not valid.',
     },
+    accounts: {
+      successMessage: 'Accounts retrieved successfully.',
+      errorMessage: 'An error occurred while retrieving accounts.',
+    }
   },
 };

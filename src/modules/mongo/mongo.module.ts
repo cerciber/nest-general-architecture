@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Account, AccountSchema } from './schemas/account.schema';
 import { AccountService } from './services/account.service';
@@ -11,6 +11,7 @@ const models = [
   { name: Account.name, schema: AccountSchema },
 ]
 
+@Global()
 @Module({
   imports: [
     CustomConfigModule,

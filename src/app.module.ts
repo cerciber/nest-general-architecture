@@ -13,7 +13,7 @@ import { MongoModule } from '@src/modules/mongo/mongo.module';
   imports: [
     LoggerModule,
     CustomConfigModule,
-    MongoModule,
+    //MongoModule,
     ApiModule,
     NotFoundModule,
   ],

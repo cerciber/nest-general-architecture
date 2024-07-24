@@ -10,7 +10,6 @@ export class ApiController {
   constructor() { }
 
   @Get()
-  @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
     type: BodyMessageResponseDto,

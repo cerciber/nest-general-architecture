@@ -10,7 +10,6 @@ export class NotFoundController {
   constructor() { }
 
   @Get()
-  @HttpCode(HttpStatus.NOT_FOUND)
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     type: ErrorResponseDto,

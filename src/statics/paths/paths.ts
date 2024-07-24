@@ -40,8 +40,16 @@ export const paths = {
     public: true,
     subpaths: {
       get: {
-        path: '/',
+        path: '',
         public: true,
+        subpaths: {},
+      },
+      getOne: {
+        path: ':id',
+        public: true,
+        params: {
+          id: 'id'
+        },
         subpaths: {},
       },
     },
