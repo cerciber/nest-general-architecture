@@ -3,19 +3,19 @@ import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Account extends Document {
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   username: string;
 
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   password: string;
 
-  @Prop()
+  @Prop({ type: Date })
   createdAt: Date;
 
-  @Prop()
+  @Prop({ type: Date })
   updatedAt: Date;
 }
 

@@ -1,9 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Account } from '../schemas/account.schema';
-import { AccountDto } from '../../api/modules/accounts/dtos/account.dto';
-import { UpdateAccountDto } from '../../api/modules/accounts/dtos/update-account.dto';
+import { Account } from '@src/modules/mongo/schemas/account.schema';
+import { AccountDto } from '../dtos/account.dto';
+import { PartialAccountDto } from '../dtos/partial-account.dto';
+import { statics } from '@src/statics/statics';
+import { ResponseError } from '@src/common/exceptions/response-error';
 
 @Injectable()
 export class AccountService {
@@ -18,17 +20,23 @@ export class AccountService {
     return this.accountModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Account> {
-    const account = await this.accountModel.findById(id).exec();
+  async findOne(partialAccountDto: PartialAccountDto): Promise<Account> {
+    const account = await this.accountModel.findOne(partialAccountDto).exec();
     if (!account) {
-      throw new NotFoundException(`Account with ID ${id} not found`);
+      throw new ResponseError(
+        {
+          status: HttpStatus.NOT_FOUND,
+          message: statics.messages.labels.noFoundLabel,
+        },
+        `Account not found`,
+      );
     }
     return account;
   }
 
-  async update(id: string, updateAccountDto: UpdateAccountDto): Promise<Account> {
+  async update(id: string, partialAccountDto: PartialAccountDto): Promise<Account> {
     const updatedAccount = await this.accountModel
-      .findByIdAndUpdate(id, updateAccountDto, { new: true })
+      .findByIdAndUpdate(id, partialAccountDto, { new: true })
       .exec();
     if (!updatedAccount) {
       throw new NotFoundException(`Account with ID ${id} not found`);

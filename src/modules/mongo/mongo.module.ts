@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Account, AccountSchema } from './schemas/account.schema';
-import { AccountService } from './services/account.service';
+import { AccountService } from '../api/modules/accounts/services/account.service';
 import { CustomConfigModule } from '@src/modules/custom-config/custom-config.module';
 import { CustomConfigService } from '@src/modules/custom-config/custom-config.service';
 import { LoggerService } from '@src/modules/logger/logger.service';
