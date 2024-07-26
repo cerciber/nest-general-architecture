@@ -1,3 +1,5 @@
+import { create } from "domain";
+
 export const paths = {
   root: {
     path: '',
@@ -50,6 +52,21 @@ export const paths = {
         params: {
           id: 'id'
         },
+        subpaths: {},
+      },
+      create: {
+        path: '',
+        public: true,
+        subpaths: {},
+      },
+      update: {
+        path: '',
+        public: true,
+        subpaths: {},
+      },
+      delete: {
+        path: '',
+        public: true,
         subpaths: {},
       },
     },

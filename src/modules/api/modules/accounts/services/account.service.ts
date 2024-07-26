@@ -31,21 +31,46 @@ export class AccountService {
   }
 
   async create(createAccountDto: AccountDto): Promise<Account> {
-    const createdAccount = new this.accountModel(createAccountDto);
-    return createdAccount.save();
+    try {
+      const createdAccount = new this.accountModel(createAccountDto);
+      return createdAccount.save();
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new ResponseError(
+          {
+            status: HttpStatus.CONFLICT,
+            message: statics.messages.labels.noFoundLabel,
+          },
+          'Username or email already exists',
+        );
+      }
+      throw error
+    }
   }
 
-  async update(filterPartialAccountDto: PartialAccountDto, updatePartialAccountDto: PartialAccountDto): Promise<Account> {
-    const updatedAccount = await this.accountModel.findOneAndUpdate(filterPartialAccountDto, updatePartialAccountDto, { new: true }).exec();
-    if (!updatedAccount) {
-      throw new ResponseError(
-        {
-          status: HttpStatus.NOT_FOUND,
-          message: statics.messages.labels.noFoundLabel,
-        },
-        `Account not found`,
-      );
+  async update(filterPartialAccountDto: PartialAccountDto, updatePartialAccountDto: PartialAccountDto): Promise<Account[]> {
+    try {
+      const accountsToUpdate = await this.accountModel.find(filterPartialAccountDto).exec();
+      const ids = accountsToUpdate.map(account => account._id);
+      await this.accountModel.updateMany(filterPartialAccountDto, updatePartialAccountDto).exec();
+      return this.accountModel.find({ _id: { $in: ids } }).exec();
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new ResponseError(
+          {
+            status: HttpStatus.CONFLICT,
+            message: statics.messages.labels.noFoundLabel,
+          },
+          'Username or email already exists',
+        );
+      }
+      throw error
     }
-    return updatedAccount;
+  }
+
+  async delete(partialAccountDto: PartialAccountDto): Promise<Account[]> {
+    const accountsToDelete = await this.accountModel.find(partialAccountDto).exec();
+    await this.accountModel.deleteMany(partialAccountDto).exec();
+    return accountsToDelete;
   }
 }
