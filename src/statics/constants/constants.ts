@@ -25,17 +25,11 @@ export const constants = {
     enableConsoleLog: true,
     // Enable file logs
     enableFileLog: true,
-    // Log all user responses
-    logAllUserResponses: false,
-    // Log warning responses
-    logWarningUserResponses: false,
-  },
-  request: {
-    // Response with error
-    responseWithError: true,
-    // Response with error stack
-    responseWithErrorStack: false,
-    // Response warnings with errors
-    responseWarningsWithError: false,
+    // Log responses activation
+    logResponses: {
+      info: true,
+      warn: false,
+      error: true,
+    }
   },
 };

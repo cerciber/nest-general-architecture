@@ -22,7 +22,11 @@ export const messages = {
       noValidEnviroment: 'Environment Not valid.',
     },
     accounts: {
-      successMessage: 'Accounts retrieved successfully.',
+      findAllMessage: 'Accounts retrieved successfully.',
+      findOneMessage: 'Account retrieved successfully.',
+      createMessage: 'Account created successfully.',
+      updateMessage: 'Accounts updated successfully.',
+      deletedMessage: 'Accounts deleted successfully.',
       errorMessage: 'An error occurred while retrieving accounts.',
     }
   },

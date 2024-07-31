@@ -30,7 +30,7 @@ export class AccountsController {
     const accounts = await this.accountService.findAll();
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.successMessage,
+      message: statics.messages.custom.accounts.findAllMessage,
       body: accounts.map((account: Account) => ({
         id: account._id.toString(),
         username: account.username,
@@ -63,7 +63,7 @@ export class AccountsController {
     const account = await this.accountService.findOne({ id });
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.successMessage,
+      message: statics.messages.custom.accounts.findOneMessage,
       body: {
         id: account._id.toString(),
         username: account.username,
@@ -94,7 +94,7 @@ export class AccountsController {
     const createdAccount = await this.accountService.create(account);
     return {
       status: HttpStatus.CREATED,
-      message: statics.messages.custom.accounts.successMessage,
+      message: statics.messages.custom.accounts.createMessage,
       body: {
         id: createdAccount._id.toString(),
         username: createdAccount.username,
@@ -127,7 +127,7 @@ export class AccountsController {
     const updatedAccounts = await this.accountService.update(updateAccountRequest.filter, updateAccountRequest.update);
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.successMessage,
+      message: statics.messages.custom.accounts.updateMessage,
       body: updatedAccounts.map((account: Account) => ({
         id: account._id.toString(),
         username: account.username,
@@ -154,7 +154,7 @@ export class AccountsController {
     const deletedAccounts = await this.accountService.delete(filter);
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.successMessage,
+      message: statics.messages.custom.accounts.deletedMessage,
       body: deletedAccounts.map((account: Account) => ({
         id: account._id.toString(),
         username: account.username,

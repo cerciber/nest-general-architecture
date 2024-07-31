@@ -1,4 +1,4 @@
-import { HttpStatus } from '@nestjs/common';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
 import { LaunchError } from '@src/common/exceptions/launch-error';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
@@ -7,6 +7,7 @@ import { LoggerService } from '@src/modules/logger/logger.service';
 import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
+import { BodyResponseDto } from '@src/dtos/body-response.dto';
 
 @Injectable()
 export class ErrorService {
@@ -38,6 +39,20 @@ export class ErrorService {
     let response: ErrorResponseDto;
     if (err instanceof ResponseError) {
       response = err.response;
+    } else if (err instanceof BadRequestException) {
+      const exceptionResponse = err.getResponse();
+      response = {
+        status: HttpStatus.BAD_REQUEST,
+        message: 'Bad Request',
+        error: {
+          id: v4(),
+          message: exceptionResponse?.['message']?.join?.(', ') ?? exceptionResponse?.toString() ?? 'Unhandler Bad Request',
+          stack: err.stack?.split('\n') || [
+            `Error: ${exceptionResponse['message']}`,
+            `    at ${statics.messages.custom.default.noTraceAvalible}`,
+          ],
+        },
+      };
     } else {
       response = {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -54,5 +69,23 @@ export class ErrorService {
       };
     }
     return response;
+  }
+
+  public removePrivateData(logLevel: string, response: BodyResponseDto | ErrorResponseDto) {
+    if ('error' in response) {
+      delete (response as ErrorResponseDto).error.stack;
+      switch (logLevel) {
+        case 'WARN':
+          if (!statics.constants.logs.logResponses.warn) {
+            delete (response as ErrorResponseDto).error.id;
+          }
+          break;
+        case 'ERROR':
+          if (statics.constants.logs.logResponses.error) {
+            delete (response as ErrorResponseDto).error.id;
+          }
+          break;
+      }
+    }
   }
 }

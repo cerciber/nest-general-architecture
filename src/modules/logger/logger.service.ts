@@ -5,7 +5,7 @@ import { BodyResponseDto } from '@src/dtos/body-response.dto';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { statics } from '@src/statics/statics';
 
-type logLevel = 'INFO' | 'WARN' | 'ERROR';
+type LogLevel = 'INFO' | 'WARN' | 'ERROR';
 type LogType = 'SYSTEM' | 'USER';
 type LogCateogry = 'INIT' | 'RESPONSE';
 
@@ -131,58 +131,35 @@ export class LoggerService {
     });
   }
 
-  public logResponse(response: BodyResponseDto | ErrorResponseDto) {
-    let level: logLevel;
-    if (response.status >= 0 && response.status < 300) {
-      level = 'INFO';
-    } else if (response.status >= 300 && response.status < 500) {
-      level = 'WARN';
+  public getLogLevel(statusCode: number): LogLevel {
+    if (statusCode >= 0 && statusCode < 300) {
+      return 'INFO';
+    } else if (statusCode >= 300 && statusCode < 500) {
+      return 'WARN';
     } else {
-      level = 'ERROR';
+      return 'ERROR';
     }
-    if (
-      statics.constants.logs.logAllUserResponses ||
-      (statics.constants.logs.logWarningUserResponses && level === 'WARN') ||
-      level === 'ERROR'
-    ) {
-      switch (level) {
-        case 'INFO':
+  }
+
+  public logResponse(response: BodyResponseDto | ErrorResponseDto) {
+    let logLevel: LogLevel = this.getLogLevel(response.status);
+    switch (logLevel) {
+      case 'INFO':
+        if (statics.constants.logs.logResponses.info) {
           this.info(response.message, 'USER', 'RESPONSE', response);
-          break;
-        case 'WARN':
+        }
+        break;
+      case 'WARN':
+        if (statics.constants.logs.logResponses.warn) {
           this.warn(response.message, 'USER', 'RESPONSE', response);
-          break;
-        case 'ERROR':
+        }
+        break;
+      case 'ERROR':
+        if (statics.constants.logs.logResponses.error) {
           this.error(response.message, 'USER', 'RESPONSE', response);
-          break;
-      }
-    }
-    if (level === 'WARN') {
-      if (statics.constants.request.responseWarningsWithError) {
-        if (
-          !statics.constants.request.responseWithErrorStack &&
-          'error' in response
-        ) {
-          if (statics.constants.request.responseWithError && 'error' in response) {
-            delete (response as ErrorResponseDto).error.stack;
-          } else {
-            delete (response as ErrorResponseDto).error;
-          }
         }
-      } else {
-        delete (response as ErrorResponseDto).error;
-      }
-    } else if (level === 'ERROR') {
-      if (
-        !statics.constants.request.responseWithErrorStack &&
-        'error' in response
-      ) {
-        if (statics.constants.request.responseWithError && 'error' in response) {
-          delete (response as ErrorResponseDto).error.stack;
-        } else {
-          delete (response as ErrorResponseDto).error;
-        }
-      }
+        break;
     }
+    return logLevel;
   }
 }
