@@ -28,7 +28,7 @@ export const constants = {
     // Log responses activation
     logResponses: {
       info: true,
-      warn: false,
+      warn: true,
       error: true,
     }
   },

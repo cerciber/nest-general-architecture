@@ -1,12 +1,13 @@
 import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Account } from '@src/modules/mongo/schemas/account.schema';
 import { AccountDto } from '../dtos/account.dto';
 import { PartialAccountDto } from '../dtos/partial-account.dto';
 import { statics } from '@src/statics/statics';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { PartialAccountIdDto } from '../dtos/partial-account-id.dto';
+import { omit, omitBy, isUndefined } from 'lodash';
 
 @Injectable()
 export class AccountService {
@@ -17,7 +18,10 @@ export class AccountService {
   }
 
   async findOne(filterPartialAccountDto: PartialAccountIdDto): Promise<Account> {
-    const account = await this.accountModel.findOne(filterPartialAccountDto).exec();
+    const account = await this.accountModel.findOne({
+      ...('id' in filterPartialAccountDto ? { _id: filterPartialAccountDto.id } : {}),
+      ...omit(filterPartialAccountDto, 'id'),
+    }).exec()
     if (!account) {
       throw new ResponseError(
         {
