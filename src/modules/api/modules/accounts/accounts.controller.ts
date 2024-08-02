@@ -31,12 +31,7 @@ export class AccountsController {
     return {
       status: HttpStatus.OK,
       message: statics.messages.custom.accounts.findAllMessage,
-      body: accounts.map((account: Account) => ({
-        id: account._id.toString(),
-        username: account.username,
-        email: account.email,
-        password: account.password,
-      }))
+      body: accounts
     }
   }
 
@@ -64,12 +59,7 @@ export class AccountsController {
     return {
       status: HttpStatus.OK,
       message: statics.messages.custom.accounts.findOneMessage,
-      body: {
-        id: account._id.toString(),
-        username: account.username,
-        email: account.email,
-        password: account.password,
-      },
+      body: account
     }
   }
 

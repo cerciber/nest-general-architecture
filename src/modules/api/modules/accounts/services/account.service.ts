@@ -8,20 +8,26 @@ import { statics } from '@src/statics/statics';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { PartialAccountIdDto } from '../dtos/partial-account-id.dto';
 import { omit, omitBy, isUndefined } from 'lodash';
+import { replaceKey } from '@src/common/functions/replace-key';
+import { AccountIdDto } from '../dtos/account-id.dto';
 
 @Injectable()
 export class AccountService {
   constructor(@InjectModel(Account.name) private accountModel: Model<Account>) { }
 
-  async findAll(): Promise<Account[]> {
-    return this.accountModel.find().exec();
+  async findAll(): Promise<AccountIdDto[]> {
+    const accounts = await this.accountModel.find().exec();
+    return accounts.map((account: Account) => ({
+      id: account._id.toString(),
+      username: account.username,
+      email: account.email,
+      password: account.password,
+    }))
   }
 
-  async findOne(filterPartialAccountDto: PartialAccountIdDto): Promise<Account> {
-    const account = await this.accountModel.findOne({
-      ...('id' in filterPartialAccountDto ? { _id: filterPartialAccountDto.id } : {}),
-      ...omit(filterPartialAccountDto, 'id'),
-    }).exec()
+  async findOne(accountDto: PartialAccountIdDto): Promise<AccountIdDto> {
+    const adaptedAccountDto = replaceKey<PartialAccountIdDto>(accountDto, 'id', '_id')
+    const account = await this.accountModel.findOne(adaptedAccountDto).exec()
     if (!account) {
       throw new ResponseError(
         {
@@ -31,7 +37,12 @@ export class AccountService {
         `Account not found`,
       );
     }
-    return account;
+    return {
+      id: account._id.toString(),
+      username: account.username,
+      email: account.email,
+      password: account.password,
+    };
   }
 
   async create(createAccountDto: AccountDto): Promise<Account> {
