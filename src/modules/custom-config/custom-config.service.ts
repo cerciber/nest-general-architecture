@@ -21,8 +21,9 @@ export class CustomConfigService extends ConfigService {
       !statics.constants.validations.validEnviroments.includes(statics.constants.envs.enviroment)
     ) {
       throw new LaunchError(
-        statics.messages.labels.startErrorLabel,
-        statics.messages.custom.default.noValidEnviroment,
+        statics.codes.startError.code,
+        statics.codes.startError.message,
+        statics.messages.default.noValidEnvironment
       );
     }
 
@@ -35,7 +36,11 @@ export class CustomConfigService extends ConfigService {
     });
 
     if (errors.length > 0) {
-      throw new LaunchError(statics.messages.labels.startErrorLabel, errors.toString());
+      throw new LaunchError(
+        statics.codes.startError.code,
+        statics.codes.startError.message,
+        errors.toString()
+      );
     }
     this.envConfig = validatedConfig;
   }

@@ -1,15 +1,15 @@
-import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Account } from '@src/modules/mongo/schemas/account.schema';
 import { AccountDto } from '../dtos/account.dto';
 import { PartialAccountDto } from '../dtos/partial-account.dto';
 import { statics } from '@src/statics/statics';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { PartialAccountIdDto } from '../dtos/partial-account-id.dto';
-import { omit, omitBy, isUndefined } from 'lodash';
 import { replaceKey } from '@src/common/functions/replace-key';
 import { AccountIdDto } from '../dtos/account-id.dto';
+import { replacePlaceholders } from '@src/common/functions/replace-placeholders';
 
 @Injectable()
 export class AccountService {
@@ -32,9 +32,10 @@ export class AccountService {
       throw new ResponseError(
         {
           status: HttpStatus.NOT_FOUND,
-          message: statics.messages.labels.noFoundLabel,
-        },
-        `Account not found`,
+          code: statics.codes.noDataFound.code,
+          message: statics.codes.noDataFound.message,
+          detail: statics.messages.accounts.notFound,
+        }
       );
     }
     return {
@@ -60,9 +61,10 @@ export class AccountService {
         throw new ResponseError(
           {
             status: HttpStatus.CONFLICT,
-            message: statics.messages.labels.noFoundLabel,
+            code: statics.codes.conflictRequest.code,
+            message: statics.codes.conflictRequest.message,
+            detail: replacePlaceholders(statics.messages.default.dataAlreadyExists, [Object.keys(error.keyValue)[0]]),
           },
-          'Username or email already exists',
         );
       }
       throw error
@@ -86,9 +88,10 @@ export class AccountService {
         throw new ResponseError(
           {
             status: HttpStatus.CONFLICT,
-            message: statics.messages.labels.noFoundLabel,
+            code: statics.codes.conflictRequest.code,
+            message: statics.codes.conflictRequest.message,
+            detail: replacePlaceholders(statics.messages.default.dataAlreadyExists, [Object.keys(error.keyValue)[0]]),
           },
-          'Username or email already exists',
         );
       }
       throw error

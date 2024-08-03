@@ -31,7 +31,7 @@ async function bootstrap() {
 
   } catch (err) {
     if (loggerService) {
-      new ErrorService(loggerService).systemHandler(err, statics.messages.labels.startErrorLabel);
+      new ErrorService(loggerService).startSystemHandler(err);
     } else {
       console.error("(Logger not avaliable)", err)
     }

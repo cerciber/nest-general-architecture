@@ -5,16 +5,16 @@ import { v4 } from 'uuid';
 export class ResponseError extends Error {
   public response: ErrorResponseDto;
   constructor(
-    public responseInput: BasicResponseDto,
-    public errorMessage: string,
+    public responseInput: BasicResponseDto
   ) {
-    super(errorMessage);
+    super(responseInput.detail);
     this.response = {
       status: responseInput.status,
+      code: responseInput.code,
       message: responseInput.message,
+      detail: responseInput.detail,
       error: {
         id: v4(),
-        message: errorMessage,
         stack: this.stack.split('\n'),
       },
     };

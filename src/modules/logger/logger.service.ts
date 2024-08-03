@@ -146,17 +146,17 @@ export class LoggerService {
     switch (logLevel) {
       case 'INFO':
         if (statics.constants.logs.logResponses.info) {
-          this.info(response.message, 'USER', 'RESPONSE', response);
+          this.info(response.code, 'USER', 'RESPONSE', response);
         }
         break;
       case 'WARN':
         if (statics.constants.logs.logResponses.warn) {
-          this.warn(response.message, 'USER', 'RESPONSE', response);
+          this.warn(response.code, 'USER', 'RESPONSE', response);
         }
         break;
       case 'ERROR':
         if (statics.constants.logs.logResponses.error) {
-          this.error(response.message, 'USER', 'RESPONSE', response);
+          this.error(response.code, 'USER', 'RESPONSE', response);
         }
         break;
     }

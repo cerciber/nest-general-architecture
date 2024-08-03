@@ -4,15 +4,17 @@ import { v4 } from 'uuid';
 export class LaunchError extends Error {
   public response: LaunchErrorResponseDto;
   constructor(
-    public labelMessage: string,
-    public errorMessage: string,
+    public code: string,
+    public message: string,
+    public detail: string,
   ) {
-    super(errorMessage);
+    super(detail);
     this.response = {
-      message: labelMessage,
+      code: code,
+      message: message,
+      detail: detail,
       error: {
         id: v4(),
-        message: errorMessage,
         stack: this.stack.split('\n'),
       },
     };

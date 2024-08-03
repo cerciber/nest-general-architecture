@@ -1,33 +1,27 @@
 export const messages = {
-  labels: {
-    successLabel: 'Information has been retrieved successfully.',
-    errorLabel: 'An error occurred while retrieving information.',
-    noFoundLabel: 'No information found.',
-    unhandlerErrorLabel: 'Unhandled error.',
-    startErrorLabel: 'An error occurred while starting the application.',
+  root: {
+    success: 'Hello was successfull!',
+    hello: 'Hello! You’re looking at a template for a NestJS 3-layer architecture, created by @cerciber.',
   },
-  custom: {
-    root: {
-      rootMessage:
-        'Hi! this is a template to create nest 3 layered architecture. By @cerciber.',
-    },
-    test: {
-      successMessage: 'Test response success.',
-      errorMessage: 'Test response error.',
-    },
-    default: {
-      noFoundMessage: 'Path not found.',
-      unhandlerErrorMessage: 'An unhandled error occurred.',
-      noTraceAvalible: 'No trace available.',
-      noValidEnviroment: 'Environment Not valid.',
-    },
-    accounts: {
-      findAllMessage: 'Accounts retrieved successfully.',
-      findOneMessage: 'Account retrieved successfully.',
-      createMessage: 'Account created successfully.',
-      updateMessage: 'Accounts updated successfully.',
-      deletedMessage: 'Accounts deleted successfully.',
-      errorMessage: 'An error occurred while retrieving accounts.',
-    }
+  test: {
+    success: 'Test was successfull!',
+    error: 'Oops! There was an error with the test response.',
   },
+  default: {
+    noFound: 'Oops! the path you’re looking for was not found.',
+    unhandledError: 'Oops! An unexpected error occurred.',
+    noTraceAvailable: 'Oops! No trace information is available.',
+    noValidEnvironment: 'Oops! The environment configuration is not valid.',
+    badRequest: 'Oops! <<0>>.',
+    dataAlreadyExists: 'Oops! The field \'<<0>>\' already exists.',
+  },
+  accounts: {
+    findAll: 'All accounts have been successfully retrieved.',
+    findOne: 'The account has been successfully retrieved.',
+    create: 'The account has been successfully created.',
+    update: 'The account(s) have been successfully updated.',
+    delete: 'The account(s) have been successfully deleted.',
+    error: 'Oops! There was an error retrieving the accounts.',
+    notFound: 'Oops! No account was found.',
+  }
 };

@@ -4,9 +4,6 @@ export class ErrorDto {
   @IsString()
   id: string;
 
-  @IsString()
-  message: string;
-
   @IsDefined()
   @IsArray()
   @IsString({ each: true })

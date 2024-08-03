@@ -18,9 +18,10 @@ export class NotFoundController {
     throw new ResponseError(
       {
         status: HttpStatus.NOT_FOUND,
-        message: statics.messages.labels.noFoundLabel,
+        code: statics.codes.noDataFound.code,
+        message: statics.codes.noDataFound.message,
+        detail: statics.messages.default.noFound,
       },
-      statics.messages.custom.default.noFoundMessage,
     );
   }
 }

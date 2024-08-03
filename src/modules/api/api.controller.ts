@@ -17,9 +17,11 @@ export class ApiController {
   getRootMessage(): BodyMessageResponseDto {
     return {
       status: HttpStatus.OK,
-      message: statics.messages.labels.successLabel,
+      code: statics.codes.dataRetrievedSuccessfully.code,
+      message: statics.codes.dataRetrievedSuccessfully.message,
+      detail: statics.messages.root.success,
       body: {
-        message: statics.messages.custom.root.rootMessage,
+        message: statics.messages.root.hello,
       },
     };
   }

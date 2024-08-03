@@ -5,5 +5,11 @@ export class BasicResponseDto {
   status: number;
 
   @IsString()
+  code: string;
+
+  @IsString()
   message: string;
+
+  @IsString()
+  detail: string;
 }

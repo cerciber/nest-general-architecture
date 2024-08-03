@@ -3,11 +3,9 @@ import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { AccountService } from '@src/modules/api/modules/accounts/services/account.service';
-import { Account } from '@src/modules/mongo/schemas/account.schema';
 import { AccountsResponseDto } from './dtos/accounts-response.dto';
 import { AccountResponseDto } from './dtos/account-response.dto';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
-import { PartialAccountDto } from './dtos/partial-account.dto';
 import { AccountDto } from './dtos/account.dto';
 import { UpdateAccountRequestDto } from './dtos/update-account.dto';
 import { PartialAccountIdDto } from './dtos/partial-account-id.dto';
@@ -31,7 +29,9 @@ export class AccountsController {
     const accounts = await this.accountService.findAll();
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.findAllMessage,
+      code: statics.codes.dataRetrievedSuccessfully.code,
+      message: statics.codes.dataRetrievedSuccessfully.message,
+      detail: statics.messages.accounts.findAll,
       body: accounts
     }
   }
@@ -59,7 +59,9 @@ export class AccountsController {
     const account = await this.accountService.findOne({ id: params.id });
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.findOneMessage,
+      code: statics.codes.dataRetrievedSuccessfully.code,
+      message: statics.codes.dataRetrievedSuccessfully.message,
+      detail: statics.messages.accounts.findOne,
       body: account
     }
   }
@@ -85,7 +87,9 @@ export class AccountsController {
     const createdAccount = await this.accountService.create(account);
     return {
       status: HttpStatus.CREATED,
-      message: statics.messages.custom.accounts.createMessage,
+      code: statics.codes.dataSavedSuccessfully.code,
+      message: statics.codes.dataSavedSuccessfully.message,
+      detail: statics.messages.accounts.create,
       body: createdAccount,
     };
   }
@@ -113,7 +117,9 @@ export class AccountsController {
     const updatedAccounts = await this.accountService.update(updateAccountRequest.filter, updateAccountRequest.update);
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.updateMessage,
+      code: statics.codes.dataUpdatedSuccessfully.code,
+      message: statics.codes.dataUpdatedSuccessfully.message,
+      detail: statics.messages.accounts.update,
       body: updatedAccounts
     };
   }
@@ -135,7 +141,9 @@ export class AccountsController {
     const deletedAccounts = await this.accountService.delete(filter);
     return {
       status: HttpStatus.OK,
-      message: statics.messages.custom.accounts.deletedMessage,
+      code: statics.codes.dataDeletedSuccessfully.code,
+      message: statics.codes.dataDeletedSuccessfully.message,
+      detail: statics.messages.accounts.delete,
       body: deletedAccounts
     };
   }

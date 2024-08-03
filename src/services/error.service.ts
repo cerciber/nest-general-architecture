@@ -8,25 +8,28 @@ import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
+import { stat } from 'fs';
+import { replacePlaceholders } from '@src/common/functions/replace-placeholders';
 
 @Injectable()
 export class ErrorService {
   constructor(private readonly loggerService: LoggerService) { }
 
-  public systemHandler(err: any, customMessage?: string) {
+  public startSystemHandler(err: any) {
     let response: LaunchErrorResponseDto;
     if (err instanceof LaunchError) {
       response = err.response;
     } else {
       response = {
-        message: customMessage ?? statics.messages.labels.unhandlerErrorLabel,
+        code: statics.codes.startError.code,
+        message: statics.codes.startError.message,
+        detail:
+          err?.message ?? statics.messages.default.unhandledError,
         error: {
           id: v4(),
-          message:
-            err?.message ?? statics.messages.custom.default.unhandlerErrorMessage,
           stack: err?.stack?.split('\n') ?? [
-            `Error: ${statics.messages.custom.default.unhandlerErrorMessage}`,
-            `    at ${statics.messages.custom.default.noTraceAvalible}`,
+            `Error: ${statics.messages.default.unhandledError}`,
+            `    at ${statics.messages.default.noTraceAvailable}`,
           ],
         },
       };
@@ -43,27 +46,29 @@ export class ErrorService {
       const exceptionResponse = err.getResponse();
       response = {
         status: HttpStatus.BAD_REQUEST,
-        message: 'Bad Request',
+        code: statics.codes.badRequest.code,
+        message: statics.codes.badRequest.message,
+        detail: replacePlaceholders(statics.messages.default.badRequest, [exceptionResponse?.['message']?.join?.(', ') ?? exceptionResponse?.toString()]) ?? statics.messages.default.unhandledError,
         error: {
           id: v4(),
-          message: exceptionResponse?.['message']?.join?.(', ') ?? exceptionResponse?.toString() ?? 'Unhandler Bad Request',
           stack: err.stack?.split('\n') || [
             `Error: ${exceptionResponse['message']}`,
-            `    at ${statics.messages.custom.default.noTraceAvalible}`,
+            `    at ${statics.messages.default.noTraceAvailable}`,
           ],
         },
       };
     } else {
       response = {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: statics.messages.labels.unhandlerErrorLabel,
+        code: statics.codes.unhandledError.code,
+        message: statics.codes.unhandledError.message,
+        detail:
+          err?.message ?? statics.messages.default.unhandledError,
         error: {
           id: v4(),
-          message:
-            err?.message ?? statics.messages.custom.default.unhandlerErrorMessage,
           stack: err?.stack?.split('\n') ?? [
-            `Error: ${statics.messages.custom.default.unhandlerErrorMessage}`,
-            `    at ${statics.messages.custom.default.noTraceAvalible}`,
+            `Error: ${statics.messages.default.unhandledError}`,
+            `    at ${statics.messages.default.noTraceAvailable}`,
           ],
         },
       };

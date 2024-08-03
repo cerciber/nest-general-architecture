@@ -18,14 +18,17 @@ export class TestController {
   getTestSuccess(): BodyMessageResponseDto {
     return {
       status: HttpStatus.OK,
-      message: statics.messages.labels.successLabel,
+      code: statics.codes.dataRetrievedSuccessfully.code,
+      message: statics.codes.dataRetrievedSuccessfully.message,
+      detail: statics.messages.test.success,
       body: {
-        message: statics.messages.custom.test.successMessage,
+        message: statics.messages.test.success,
       },
     };
   }
 
   @Get(statics.paths.test.subpaths.error.path)
+  @HttpCode(HttpStatus.INTERNAL_SERVER_ERROR)
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     type: ErrorResponseDto,
@@ -34,9 +37,10 @@ export class TestController {
     throw new ResponseError(
       {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: statics.messages.labels.errorLabel,
-      },
-      statics.messages.custom.test.errorMessage,
+        code: statics.codes.retrievingDataError.code,
+        message: statics.codes.retrievingDataError.message,
+        detail: statics.messages.test.error,
+      }
     );
   }
 }
