@@ -11,6 +11,7 @@ import { PartialAccountDto } from './dtos/partial-account.dto';
 import { AccountDto } from './dtos/account.dto';
 import { UpdateAccountRequestDto } from './dtos/update-account.dto';
 import { PartialAccountIdDto } from './dtos/partial-account-id.dto';
+import { IdDto } from './dtos/id.dto';
 
 @ApiTags(statics.paths.accounts.tag)
 @Controller(statics.paths.accounts.path)
@@ -53,9 +54,9 @@ export class AccountsController {
     type: ErrorResponseDto,
   })
   async findOne(
-    @Param(statics.paths.accounts.subpaths.getOne.params.id) id: string
+    @Param() params: IdDto
   ): Promise<AccountResponseDto> {
-    const account = await this.accountService.findOne({ id });
+    const account = await this.accountService.findOne({ id: params.id });
     return {
       status: HttpStatus.OK,
       message: statics.messages.custom.accounts.findOneMessage,
@@ -85,12 +86,7 @@ export class AccountsController {
     return {
       status: HttpStatus.CREATED,
       message: statics.messages.custom.accounts.createMessage,
-      body: {
-        id: createdAccount._id.toString(),
-        username: createdAccount.username,
-        email: createdAccount.email,
-        password: createdAccount.password,
-      },
+      body: createdAccount,
     };
   }
 
@@ -118,12 +114,7 @@ export class AccountsController {
     return {
       status: HttpStatus.OK,
       message: statics.messages.custom.accounts.updateMessage,
-      body: updatedAccounts.map((account: Account) => ({
-        id: account._id.toString(),
-        username: account.username,
-        email: account.email,
-        password: account.password,
-      }))
+      body: updatedAccounts
     };
   }
 
@@ -145,12 +136,7 @@ export class AccountsController {
     return {
       status: HttpStatus.OK,
       message: statics.messages.custom.accounts.deletedMessage,
-      body: deletedAccounts.map((account: Account) => ({
-        id: account._id.toString(),
-        username: account.username,
-        email: account.email,
-        password: account.password,
-      }))
+      body: deletedAccounts
     };
   }
 

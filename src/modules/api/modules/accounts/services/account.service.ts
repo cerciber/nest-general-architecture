@@ -45,10 +45,16 @@ export class AccountService {
     };
   }
 
-  async create(createAccountDto: AccountDto): Promise<Account> {
+  async create(createAccountDto: AccountDto): Promise<AccountIdDto> {
     try {
-      const createdAccount = new this.accountModel(createAccountDto);
-      return createdAccount.save();
+      const account = new this.accountModel(createAccountDto);
+      const createdAccount = await account.save();
+      return {
+        id: createdAccount._id.toString(),
+        username: createdAccount.username,
+        email: createdAccount.email,
+        password: createdAccount.password,
+      }
     } catch (error) {
       if (error.code === 11000) {
         throw new ResponseError(
@@ -63,12 +69,18 @@ export class AccountService {
     }
   }
 
-  async update(filterPartialAccountDto: PartialAccountDto, updatePartialAccountDto: PartialAccountDto): Promise<Account[]> {
+  async update(filterPartialAccountDto: PartialAccountDto, updatePartialAccountDto: PartialAccountDto): Promise<AccountIdDto[]> {
     try {
       const accountsToUpdate = await this.accountModel.find(filterPartialAccountDto).exec();
       const ids = accountsToUpdate.map(account => account._id);
       await this.accountModel.updateMany(filterPartialAccountDto, updatePartialAccountDto).exec();
-      return this.accountModel.find({ _id: { $in: ids } }).exec();
+      const updatedAccounts = await this.accountModel.find({ _id: { $in: ids } }).exec();
+      return updatedAccounts.map((account: Account) => ({
+        id: account._id.toString(),
+        username: account.username,
+        email: account.email,
+        password: account.password,
+      }))
     } catch (error) {
       if (error.code === 11000) {
         throw new ResponseError(
@@ -83,9 +95,14 @@ export class AccountService {
     }
   }
 
-  async delete(partialAccountDto: PartialAccountDto): Promise<Account[]> {
+  async delete(partialAccountDto: PartialAccountDto): Promise<AccountIdDto[]> {
     const accountsToDelete = await this.accountModel.find(partialAccountDto).exec();
     await this.accountModel.deleteMany(partialAccountDto).exec();
-    return accountsToDelete;
+    return accountsToDelete.map((account: Account) => ({
+      id: account._id.toString(),
+      username: account.username,
+      email: account.email,
+      password: account.password,
+    }))
   }
 }
