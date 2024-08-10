@@ -4,7 +4,6 @@ import { SwaggerService } from '@src/services/swagger.service';
 import { DTOsService } from '@src/services/dtos.service';
 import { ErrorService } from '@src/services/error.service';
 import { LoggerService } from '@src/modules/logger/logger.service';
-import { statics } from '@src/statics/statics';
 import { CustomConfigService } from '@src/modules/custom-config/custom-config.service';
 
 async function bootstrap() {

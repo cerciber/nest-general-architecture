@@ -22,9 +22,6 @@ export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const res = context.switchToHttp().getResponse<Response>()
     return next.handle().pipe(
-      catchError((err) => {
-        return of(this.errorService.responseHandler(err));
-      }),
       tap((response: BodyResponseDto | ErrorResponseDto) => {
         const logLevel = this.loggerService.logResponse(response);
         this.errorService.removePrivateData(logLevel, response);

@@ -1,4 +1,4 @@
-import { BadRequestException, HttpStatus } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
 import { LaunchError } from '@src/common/exceptions/launch-error';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
@@ -42,6 +42,21 @@ export class ErrorService {
     let response: ErrorResponseDto;
     if (err instanceof ResponseError) {
       response = err.response;
+    } else if (err instanceof HttpException) {
+      const exceptionResponse = err.getResponse();
+      response = {
+        status: HttpStatus.BAD_REQUEST,
+        code: statics.codes.badRequest.code,
+        message: statics.codes.badRequest.message,
+        detail: err.message ?? statics.messages.default.unhandledError,
+        error: {
+          id: v4(),
+          stack: err.stack?.split('\n') || [
+            `Error: ${exceptionResponse['message']}`,
+            `    at ${statics.messages.default.noTraceAvailable}`,
+          ],
+        },
+      };
     } else if (err instanceof BadRequestException) {
       const exceptionResponse = err.getResponse();
       response = {

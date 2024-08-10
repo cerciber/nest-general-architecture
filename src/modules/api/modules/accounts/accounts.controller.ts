@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
@@ -94,7 +94,7 @@ export class AccountsController {
     };
   }
 
-  @Put(statics.paths.accounts.subpaths.update.path)
+  @Patch(statics.paths.accounts.subpaths.update.path)
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountsResponseDto,
