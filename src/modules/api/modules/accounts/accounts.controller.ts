@@ -10,6 +10,8 @@ import { AccountDto } from './dtos/account.dto';
 import { UpdateAccountRequestDto } from './dtos/update-account.dto';
 import { PartialAccountIdDto } from './dtos/partial-account-id.dto';
 import { IdDto } from './dtos/id.dto';
+import { PartialAccountDto } from './dtos/partial-account.dto';
+import { ResponseError } from '@src/common/exceptions/response-error';
 
 @ApiTags(statics.paths.accounts.tag)
 @Controller(statics.paths.accounts.path)
@@ -104,6 +106,10 @@ export class AccountsController {
     type: ErrorResponseDto,
   })
   @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
     status: HttpStatus.CONFLICT,
     type: ErrorResponseDto,
   })
@@ -112,15 +118,26 @@ export class AccountsController {
     type: ErrorResponseDto,
   })
   async update(
-    @Body() updateAccountRequest: UpdateAccountRequestDto,
-  ): Promise<AccountsResponseDto> {
-    const updatedAccounts = await this.accountService.update(updateAccountRequest.filter, updateAccountRequest.update);
+    @Param() params: IdDto,
+    @Body() updateAccountRequest: PartialAccountDto,
+  ): Promise<AccountResponseDto> {
+    const updatedAccounts = await this.accountService.update({ id: params.id }, updateAccountRequest);
+    if (updatedAccounts.length === 0) {
+      throw new ResponseError(
+        {
+          status: HttpStatus.NOT_FOUND,
+          code: statics.codes.noDataFound.code,
+          message: statics.codes.noDataFound.message,
+          detail: statics.messages.accounts.notFound,
+        }
+      );
+    }
     return {
       status: HttpStatus.OK,
       code: statics.codes.dataUpdatedSuccessfully.code,
       message: statics.codes.dataUpdatedSuccessfully.message,
       detail: statics.messages.accounts.update,
-      body: updatedAccounts
+      body: updatedAccounts[0]
     };
   }
 
@@ -134,17 +151,31 @@ export class AccountsController {
     type: ErrorResponseDto,
   })
   @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     type: ErrorResponseDto,
   })
-  async delete(@Body() filter: PartialAccountIdDto): Promise<AccountsResponseDto> {
-    const deletedAccounts = await this.accountService.delete(filter);
+  async delete(@Param() params: IdDto): Promise<AccountResponseDto> {
+    const deletedAccounts = await this.accountService.delete({ id: params.id });
+    if (deletedAccounts.length === 0) {
+      throw new ResponseError(
+        {
+          status: HttpStatus.NOT_FOUND,
+          code: statics.codes.noDataFound.code,
+          message: statics.codes.noDataFound.message,
+          detail: statics.messages.accounts.notFound,
+        }
+      );
+    }
     return {
       status: HttpStatus.OK,
       code: statics.codes.dataDeletedSuccessfully.code,
       message: statics.codes.dataDeletedSuccessfully.message,
       detail: statics.messages.accounts.delete,
-      body: deletedAccounts
+      body: deletedAccounts[0]
     };
   }
 

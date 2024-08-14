@@ -49,9 +49,6 @@ export const paths = {
       getOne: {
         path: ':id',
         public: true,
-        params: {
-          id: 'id'
-        },
         subpaths: {},
       },
       create: {
@@ -60,12 +57,12 @@ export const paths = {
         subpaths: {},
       },
       update: {
-        path: '',
+        path: ':id',
         public: true,
         subpaths: {},
       },
       delete: {
-        path: '',
+        path: ':id',
         public: true,
         subpaths: {},
       },

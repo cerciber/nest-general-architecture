@@ -10,6 +10,7 @@ import { PartialAccountIdDto } from '../dtos/partial-account-id.dto';
 import { replaceKey } from '@src/common/functions/replace-key';
 import { AccountIdDto } from '../dtos/account-id.dto';
 import { replacePlaceholders } from '@src/common/functions/replace-placeholders';
+import { IdDto } from '../dtos/id.dto';
 
 @Injectable()
 export class AccountService {
@@ -71,11 +72,12 @@ export class AccountService {
     }
   }
 
-  async update(filterPartialAccountDto: PartialAccountDto, updatePartialAccountDto: PartialAccountDto): Promise<AccountIdDto[]> {
+  async update(filterPartialAccountDto: PartialAccountIdDto, updatePartialAccountDto: PartialAccountDto): Promise<AccountIdDto[]> {
     try {
-      const accountsToUpdate = await this.accountModel.find(filterPartialAccountDto).exec();
+      const adaptedPartialAccountDto = replaceKey<PartialAccountIdDto>(filterPartialAccountDto, 'id', '_id')
+      const accountsToUpdate = await this.accountModel.find(adaptedPartialAccountDto).exec();
       const ids = accountsToUpdate.map(account => account._id);
-      await this.accountModel.updateMany(filterPartialAccountDto, updatePartialAccountDto).exec();
+      await this.accountModel.updateMany(adaptedPartialAccountDto, updatePartialAccountDto).exec();
       const updatedAccounts = await this.accountModel.find({ _id: { $in: ids } }).exec();
       return updatedAccounts.map((account: Account) => ({
         id: account._id.toString(),
@@ -98,9 +100,10 @@ export class AccountService {
     }
   }
 
-  async delete(partialAccountDto: PartialAccountDto): Promise<AccountIdDto[]> {
-    const accountsToDelete = await this.accountModel.find(partialAccountDto).exec();
-    await this.accountModel.deleteMany(partialAccountDto).exec();
+  async delete(filterPartialAccountDto: PartialAccountIdDto): Promise<AccountIdDto[]> {
+    const adaptedPartialAccountDto = replaceKey<PartialAccountIdDto>(filterPartialAccountDto, 'id', '_id')
+    const accountsToDelete = await this.accountModel.find(adaptedPartialAccountDto).exec();
+    await this.accountModel.deleteMany(adaptedPartialAccountDto).exec();
     return accountsToDelete.map((account: Account) => ({
       id: account._id.toString(),
       username: account.username,

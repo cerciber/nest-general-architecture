@@ -19,8 +19,8 @@ export const messages = {
     findAll: 'All accounts have been successfully retrieved.',
     findOne: 'The account has been successfully retrieved.',
     create: 'The account has been successfully created.',
-    update: 'The account(s) have been successfully updated.',
-    delete: 'The account(s) have been successfully deleted.',
+    update: 'The account has been successfully updated.',
+    delete: 'The accoun has been successfully deleted.',
     error: 'Oops! There was an error retrieving the accounts.',
     notFound: 'Oops! No account was found.',
   }
