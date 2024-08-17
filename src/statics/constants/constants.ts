@@ -29,5 +29,8 @@ export const constants = {
   jwt: {
     tokensExpireIn: '60m',
     ignoreExpiration: false,
-  }
+  },
+  bcrypt: {
+    saltRounds: 10,
+  },
 };

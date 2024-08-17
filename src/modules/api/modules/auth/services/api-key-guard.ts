@@ -10,8 +10,7 @@ export class ApiKeyGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<Request>();
 
-    const path = this.getPath(request.method, request.url);
-    if (path && path.public) {
+    if (this.valdatePublicPath(request)) {
       return true;
     }
 
@@ -28,6 +27,11 @@ export class ApiKeyGuard implements CanActivate {
       );
     }
     return valid;
+  }
+
+  private valdatePublicPath(request: Request) {
+    const path = this.getPath(request.method, request.route.path);
+    return path && path.public
   }
 
   private getPath(method: string, url: string) {

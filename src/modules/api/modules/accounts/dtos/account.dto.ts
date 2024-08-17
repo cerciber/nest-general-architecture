@@ -4,11 +4,12 @@ import { IsMongoId, IsString, IsEmail, IsNotEmpty, MinLength } from 'class-valid
 export const AccountNames = {
   id: 'id',
   _id: '_id',
+  password: 'password',
 } as const;
 
 export class AccountIdDto {
   @IsMongoId()
-  readonly [AccountNames.id]: string;
+  readonly id: string;
 
   @IsString()
   @IsNotEmpty()
@@ -29,3 +30,5 @@ export class AccountDto extends OmitType(AccountIdDto, [AccountNames.id]) { }
 export class PartialAccountIdDto extends PartialType(AccountIdDto) { }
 
 export class PartialAccountDto extends PartialType(AccountDto) { }
+
+export class AccountIdDtoNoPassword extends OmitType(AccountIdDto, [AccountNames.password]) { }

@@ -2,28 +2,28 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Account } from '@src/modules/mongo/schemas/account.schema';
-import { AccountDto, PartialAccountDto, PartialAccountIdDto, AccountNames } from '../dtos/account.dto';
+import { AccountDto, PartialAccountDto, PartialAccountIdDto, AccountNames, AccountIdDtoNoPassword } from '../dtos/account.dto';
 import { statics } from '@src/statics/statics';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { replaceKey } from '@src/common/functions/replace-key';
 import { AccountIdDto } from '../dtos/account.dto';
 import { replacePlaceholders } from '@src/common/functions/replace-placeholders';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AccountService {
   constructor(@InjectModel(Account.name) private accountModel: Model<Account>) { }
 
-  async findAll(): Promise<AccountIdDto[]> {
+  async findAll(): Promise<AccountIdDtoNoPassword[]> {
     const accounts = await this.accountModel.find().exec();
     return accounts.map((account: Account) => ({
       id: account._id.toString(),
       username: account.username,
       email: account.email,
-      password: account.password,
     }))
   }
 
-  async findOne(accountDto: PartialAccountIdDto): Promise<AccountIdDto> {
+  async findOne(accountDto: PartialAccountIdDto): Promise<AccountIdDtoNoPassword> {
     const adaptedAccountDto = replaceKey<PartialAccountIdDto>(accountDto, AccountNames.id, AccountNames._id)
     const account = await this.accountModel.findOne(adaptedAccountDto).exec()
     if (!account) {
@@ -40,19 +40,21 @@ export class AccountService {
       id: account._id.toString(),
       username: account.username,
       email: account.email,
-      password: account.password,
     };
   }
 
-  async create(createAccountDto: AccountDto): Promise<AccountIdDto> {
+  async create(createAccountDto: AccountDto): Promise<AccountIdDtoNoPassword> {
     try {
-      const account = new this.accountModel(createAccountDto);
+      const encryptAccountDto = {
+        ...createAccountDto,
+        password: bcrypt.hashSync(createAccountDto.password, statics.constants.bcrypt.saltRounds),
+      }
+      const account = new this.accountModel(encryptAccountDto);
       const createdAccount = await account.save();
       return {
         id: createdAccount._id.toString(),
         username: createdAccount.username,
         email: createdAccount.email,
-        password: createdAccount.password,
       }
     } catch (error) {
       if (error.code === 11000) {
@@ -69,7 +71,7 @@ export class AccountService {
     }
   }
 
-  async update(filterPartialAccountDto: PartialAccountIdDto, updatePartialAccountDto: PartialAccountDto): Promise<AccountIdDto[]> {
+  async update(filterPartialAccountDto: PartialAccountIdDto, updatePartialAccountDto: PartialAccountDto): Promise<AccountIdDtoNoPassword[]> {
     try {
       const adaptedPartialAccountDto = replaceKey<PartialAccountIdDto>(filterPartialAccountDto, AccountNames.id, AccountNames._id)
       const accountsToUpdate = await this.accountModel.find(adaptedPartialAccountDto).exec();
@@ -80,7 +82,6 @@ export class AccountService {
         id: account._id.toString(),
         username: account.username,
         email: account.email,
-        password: account.password,
       }))
     } catch (error) {
       if (error.code === 11000) {
@@ -97,7 +98,7 @@ export class AccountService {
     }
   }
 
-  async delete(filterPartialAccountDto: PartialAccountIdDto): Promise<AccountIdDto[]> {
+  async delete(filterPartialAccountDto: PartialAccountIdDto): Promise<AccountIdDtoNoPassword[]> {
     const adaptedPartialAccountDto = replaceKey<PartialAccountIdDto>(filterPartialAccountDto, AccountNames.id, AccountNames._id)
     const accountsToDelete = await this.accountModel.find(adaptedPartialAccountDto).exec();
     await this.accountModel.deleteMany(adaptedPartialAccountDto).exec();
@@ -105,7 +106,6 @@ export class AccountService {
       id: account._id.toString(),
       username: account.username,
       email: account.email,
-      password: account.password,
     }))
   }
 }
