@@ -78,4 +78,15 @@ paths.accountsDelete = {
   public: true,
 };
 
+paths.auth = {
+  path: '/auth',
+  tag: 'Auth',
+};
+
+paths.authLogin = {
+  path: `${paths.auth.path}/login`,
+  method: RequestMethod.POST,
+  public: true,
+};
+
 export { paths };

@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './services/jwt-strategy.service';
 import { statics } from '@src/statics/statics';
+import { LocalStrategy } from './services/local-strategy.service';
 
 @Global()
 @Module({
@@ -21,7 +22,11 @@ import { statics } from '@src/statics/statics';
       }),
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    //JwtStrategy
+  ],
   controllers: [AuthController],
 })
 export class AuthModule { }

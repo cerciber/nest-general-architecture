@@ -55,4 +55,8 @@ export const codes = {
     code: 'UNAUTHORIZED_REQUEST',
     message: 'The request could not be completed due to a lack of authorization.'
   },
+  logginSuccess: {
+    code: 'LOGGIN_SUCCESS',
+    message: 'The user has successfully logged in.'
+  },
 };

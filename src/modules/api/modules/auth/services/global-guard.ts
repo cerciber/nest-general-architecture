@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { RequestMethod } from "@nestjs/common";
 
 @Injectable()
-export class ApiKeyGuard implements CanActivate {
+export class GlobalGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<Request>();
 

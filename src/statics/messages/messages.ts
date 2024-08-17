@@ -1,3 +1,5 @@
+import { log } from "console";
+
 export const messages = {
   root: {
     success: 'Hello was successfull!',
@@ -15,6 +17,9 @@ export const messages = {
     badRequest: 'Oops! <<0>>.',
     dataAlreadyExists: 'Oops! The field \'<<0>>\' already exists.',
     unauthorized: 'Oops! You are not authorized.',
+    incorrectUserOrPassword: 'Oops! The user or password is incorrect.',
+    incorrectEmailOrPassword: 'Oops! The email or password is incorrect.',
+    loginSuccess: 'You are now logged in!',
   },
   accounts: {
     findAll: 'All accounts have been successfully retrieved.',

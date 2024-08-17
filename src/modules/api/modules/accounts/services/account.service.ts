@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Account } from '@src/modules/mongo/schemas/account.schema';
-import { AccountDto, PartialAccountDto, PartialAccountIdDto, AccountNames, AccountIdDtoNoPassword } from '../dtos/account.dto';
+import { AccountDto, PartialAccountDto, PartialAccountIdDto, AccountNames, AccountIdNoPasswordDto } from '../dtos/account.dto';
 import { statics } from '@src/statics/statics';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { replaceKey } from '@src/common/functions/replace-key';
@@ -14,7 +14,7 @@ import * as bcrypt from 'bcrypt';
 export class AccountService {
   constructor(@InjectModel(Account.name) private accountModel: Model<Account>) { }
 
-  async findAll(): Promise<AccountIdDtoNoPassword[]> {
+  async findAll(): Promise<AccountIdNoPasswordDto[]> {
     const accounts = await this.accountModel.find().exec();
     return accounts.map((account: Account) => ({
       id: account._id.toString(),
@@ -23,7 +23,7 @@ export class AccountService {
     }))
   }
 
-  async findOne(accountDto: PartialAccountIdDto): Promise<AccountIdDtoNoPassword> {
+  async findOne(accountDto: PartialAccountIdDto): Promise<AccountIdNoPasswordDto> {
     const adaptedAccountDto = replaceKey<PartialAccountIdDto>(accountDto, AccountNames.id, AccountNames._id)
     const account = await this.accountModel.findOne(adaptedAccountDto).exec()
     if (!account) {
@@ -43,7 +43,28 @@ export class AccountService {
     };
   }
 
-  async create(createAccountDto: AccountDto): Promise<AccountIdDtoNoPassword> {
+  async findOneWithPassword(accountDto: PartialAccountIdDto): Promise<AccountIdDto> {
+    const adaptedAccountDto = replaceKey<PartialAccountIdDto>(accountDto, AccountNames.id, AccountNames._id)
+    const account = await this.accountModel.findOne(adaptedAccountDto).exec()
+    if (!account) {
+      throw new ResponseError(
+        {
+          status: HttpStatus.NOT_FOUND,
+          code: statics.codes.noDataFound.code,
+          message: statics.codes.noDataFound.message,
+          detail: statics.messages.accounts.notFound,
+        }
+      );
+    }
+    return {
+      id: account._id.toString(),
+      username: account.username,
+      email: account.email,
+      password: account.password,
+    };
+  }
+
+  async create(createAccountDto: AccountDto): Promise<AccountIdNoPasswordDto> {
     try {
       const encryptAccountDto = {
         ...createAccountDto,
@@ -71,7 +92,7 @@ export class AccountService {
     }
   }
 
-  async update(filterPartialAccountDto: PartialAccountIdDto, updatePartialAccountDto: PartialAccountDto): Promise<AccountIdDtoNoPassword[]> {
+  async update(filterPartialAccountDto: PartialAccountIdDto, updatePartialAccountDto: PartialAccountDto): Promise<AccountIdNoPasswordDto[]> {
     try {
       const adaptedPartialAccountDto = replaceKey<PartialAccountIdDto>(filterPartialAccountDto, AccountNames.id, AccountNames._id)
       const accountsToUpdate = await this.accountModel.find(adaptedPartialAccountDto).exec();
@@ -98,7 +119,7 @@ export class AccountService {
     }
   }
 
-  async delete(filterPartialAccountDto: PartialAccountIdDto): Promise<AccountIdDtoNoPassword[]> {
+  async delete(filterPartialAccountDto: PartialAccountIdDto): Promise<AccountIdNoPasswordDto[]> {
     const adaptedPartialAccountDto = replaceKey<PartialAccountIdDto>(filterPartialAccountDto, AccountNames.id, AccountNames._id)
     const accountsToDelete = await this.accountModel.find(adaptedPartialAccountDto).exec();
     await this.accountModel.deleteMany(adaptedPartialAccountDto).exec();

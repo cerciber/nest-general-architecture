@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, RequestMapping, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, RequestMapping } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
@@ -8,7 +8,6 @@ import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { AccountDto, PartialAccountDto } from './dtos/account.dto';
 import { IdDto } from '@src/dtos/id.dto';
 import { ResponseError } from '@src/common/exceptions/response-error';
-import { ApiKeyGuard } from '@src/modules/api/modules/auth/services/api-key-guard';
 
 @ApiTags(statics.paths.accounts.tag)
 @Controller()
