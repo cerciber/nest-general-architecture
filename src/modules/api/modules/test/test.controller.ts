@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode } from '@nestjs/common';
+import { Controller, Get, HttpCode, RequestMapping } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { ResponseError } from '@src/common/exceptions/response-error';
@@ -7,10 +7,10 @@ import { BodyMessageResponseDto } from '@src/dtos/body-message-response.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags(statics.paths.test.tag)
-@Controller(statics.paths.test.path)
+@Controller()
 export class TestController {
 
-  @Get(statics.paths.test.subpaths.success.path)
+  @RequestMapping({ path: statics.paths.testSuccess.path, method: statics.paths.testSuccess.method })
   @ApiResponse({
     status: HttpStatus.OK,
     type: BodyMessageResponseDto,
@@ -27,7 +27,7 @@ export class TestController {
     };
   }
 
-  @Get(statics.paths.test.subpaths.error.path)
+  @RequestMapping({ path: statics.paths.testError.path, method: statics.paths.testError.method })
   @HttpCode(HttpStatus.INTERNAL_SERVER_ERROR)
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,

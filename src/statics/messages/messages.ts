@@ -14,6 +14,7 @@ export const messages = {
     noValidEnvironment: 'Oops! The environment configuration is not valid.',
     badRequest: 'Oops! <<0>>.',
     dataAlreadyExists: 'Oops! The field \'<<0>>\' already exists.',
+    unauthorized: 'Oops! You are not authorized.',
   },
   accounts: {
     findAll: 'All accounts have been successfully retrieved.',

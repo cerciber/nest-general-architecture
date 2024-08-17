@@ -8,4 +8,8 @@ export class EnvsDto {
   @IsNotEmpty()
   @IsString()
   MONGO_URI: string;
+
+  @IsNotEmpty()
+  @IsString()
+  JWT_SECRET_KEY: string;
 }

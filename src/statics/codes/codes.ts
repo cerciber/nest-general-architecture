@@ -51,4 +51,8 @@ export const codes = {
     code: 'CONFLICT_REQUEST',
     message: 'The request could not be completed due to a conflict.'
   },
+  unauthorizedRequest: {
+    code: 'UNAUTHORIZED_REQUEST',
+    message: 'The request could not be completed due to a lack of authorization.'
+  },
 };

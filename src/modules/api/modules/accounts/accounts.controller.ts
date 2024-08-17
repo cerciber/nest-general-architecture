@@ -1,24 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, RequestMapping, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { AccountService } from '@src/modules/api/modules/accounts/services/account.service';
-import { AccountsResponseDto } from './dtos/accounts-response.dto';
-import { AccountResponseDto } from './dtos/account-response.dto';
+import { AccountResponseDto, AccountsResponseDto } from './dtos/account-response.dto';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
-import { AccountDto } from './dtos/account.dto';
-import { UpdateAccountRequestDto } from './dtos/update-account.dto';
-import { PartialAccountIdDto } from './dtos/partial-account-id.dto';
-import { IdDto } from './dtos/id.dto';
-import { PartialAccountDto } from './dtos/partial-account.dto';
+import { AccountDto, PartialAccountDto } from './dtos/account.dto';
+import { IdDto } from '@src/dtos/id.dto';
 import { ResponseError } from '@src/common/exceptions/response-error';
+import { ApiKeyGuard } from '@src/modules/api/modules/auth/services/api-key-guard';
 
 @ApiTags(statics.paths.accounts.tag)
-@Controller(statics.paths.accounts.path)
+@Controller()
 export class AccountsController {
   constructor(private readonly accountService: AccountService) { }
 
-  @Get(statics.paths.accounts.subpaths.get.path)
+  @RequestMapping({ path: statics.paths.accountsGet.path, method: statics.paths.accountsGet.method })
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountsResponseDto,
@@ -38,7 +35,7 @@ export class AccountsController {
     }
   }
 
-  @Get(statics.paths.accounts.subpaths.getOne.path)
+  @RequestMapping({ path: statics.paths.accountsGetOne.path, method: statics.paths.accountsGetOne.method })
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountResponseDto,
@@ -68,7 +65,7 @@ export class AccountsController {
     }
   }
 
-  @Post(statics.paths.accounts.subpaths.create.path)
+  @RequestMapping({ path: statics.paths.accountsCreate.path, method: statics.paths.accountsCreate.method })
   @ApiResponse({
     status: HttpStatus.CREATED,
     type: AccountResponseDto,
@@ -96,7 +93,7 @@ export class AccountsController {
     };
   }
 
-  @Patch(statics.paths.accounts.subpaths.update.path)
+  @RequestMapping({ path: statics.paths.accountsUpdate.path, method: statics.paths.accountsUpdate.method })
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountsResponseDto,
@@ -141,7 +138,7 @@ export class AccountsController {
     };
   }
 
-  @Delete(statics.paths.accounts.subpaths.delete.path)
+  @RequestMapping({ path: statics.paths.accountsDelete.path, method: statics.paths.accountsDelete.method })
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountsResponseDto,

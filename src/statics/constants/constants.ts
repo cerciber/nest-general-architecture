@@ -15,21 +15,19 @@ export const constants = {
     validEnviroments: ['development', 'staging', 'production'],
   },
   logs: {
-    // Max log bits per file
     maxBitsPerFile: 5120000,
-    // Max log files
     maxFiles: 5,
-    // Enable general logs
     enableLogs: true,
-    // Enable console logs
     enableConsoleLog: true,
-    // Enable file logs
     enableFileLog: true,
-    // Log responses activation
     logResponses: {
       info: true,
       warn: true,
       error: true,
     }
   },
+  jwt: {
+    tokensExpireIn: '60m',
+    ignoreExpiration: false,
+  }
 };

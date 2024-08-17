@@ -59,7 +59,7 @@ export class ErrorService {
       };
     } else {
       response = {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        status: err.status ?? HttpStatus.INTERNAL_SERVER_ERROR,
         code: statics.codes.unhandledError.code,
         message: statics.codes.unhandledError.message,
         detail:
