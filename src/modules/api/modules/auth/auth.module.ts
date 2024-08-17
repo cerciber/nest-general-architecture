@@ -5,9 +5,7 @@ import { CustomConfigModule } from '@src/modules/custom-config/custom-config.mod
 import { CustomConfigService } from '@src/modules/custom-config/custom-config.service';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { JwtStrategy } from './services/jwt-strategy.service';
 import { statics } from '@src/statics/statics';
-import { LocalStrategy } from './services/local-strategy.service';
 
 @Global()
 @Module({
@@ -24,8 +22,6 @@ import { LocalStrategy } from './services/local-strategy.service';
   ],
   providers: [
     AuthService,
-    LocalStrategy,
-    //JwtStrategy
   ],
   controllers: [AuthController],
 })

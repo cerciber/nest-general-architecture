@@ -51,7 +51,7 @@ paths.accounts = {
 paths.accountsGet = {
   path: `${paths.accounts.path}`,
   method: RequestMethod.GET,
-  public: true,
+  public: false,
 };
 
 paths.accountsGetOne = {
