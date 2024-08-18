@@ -1,4 +1,4 @@
-import { Body, Controller, Param } from '@nestjs/common';
+import { Body, Controller, HttpCode, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
@@ -60,6 +60,7 @@ export class AccountsController {
     };
   }
 
+  @HttpCode(HttpStatus.CREATED)
   @EndpointConfig(statics.paths.accountsCreate, [
     {
       status: HttpStatus.CREATED,

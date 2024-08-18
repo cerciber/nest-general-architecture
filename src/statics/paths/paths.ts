@@ -23,7 +23,36 @@ paths.docs = {
 paths.default = {
   path: '*',
   tag: 'Default',
-  method: RequestMethod.ALL,
+  public: true,
+};
+
+paths.defaultGet = {
+  path: `${paths.default.path}`,
+  method: RequestMethod.GET,
+  public: true,
+};
+
+paths.defaultPost = {
+  path: `${paths.default.path}`,
+  method: RequestMethod.POST,
+  public: true,
+};
+
+paths.defaultPatch = {
+  path: `${paths.default.path}`,
+  method: RequestMethod.PATCH,
+  public: true,
+};
+
+paths.defaultPut = {
+  path: `${paths.default.path}`,
+  method: RequestMethod.PUT,
+  public: true,
+};
+
+paths.defaultDelete = {
+  path: `${paths.default.path}`,
+  method: RequestMethod.DELETE,
   public: true,
 };
 
@@ -93,7 +122,7 @@ paths.authLogin = {
 paths.authSignup = {
   path: `${paths.auth.path}/signup`,
   method: RequestMethod.POST,
-  public: true,
+  public: false,
 };
 
 export { paths };

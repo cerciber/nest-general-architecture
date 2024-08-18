@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, HttpCode } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { ResponseError } from '@src/common/exceptions/response-error';
@@ -28,6 +28,7 @@ export class TestController {
     };
   }
 
+  @HttpCode(HttpStatus.INTERNAL_SERVER_ERROR)
   @EndpointConfig(statics.paths.testError, [])
   getTestError(): ErrorResponseDto {
     throw new ResponseError({

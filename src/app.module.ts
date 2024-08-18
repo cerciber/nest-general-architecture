@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ErrorService } from '@src/services/error.service';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ResponseInterceptor } from '@src/common/interceptors/response.interceptor';
-import { NotFoundModule } from '@src/modules/not-found/not-found.module';
+import { NotFoundModule } from '@src/modules/api/modules/not-found/not-found.module';
 import { DTOsService } from '@src/services/dtos.service';
 import { CustomConfigModule } from '@src/modules/custom-config/custom-config.module';
 import { LoggerModule } from '@src/modules/logger/logger.module';

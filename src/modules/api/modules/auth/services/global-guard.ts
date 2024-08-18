@@ -41,7 +41,7 @@ export class GlobalGuard implements CanActivate {
         paths[key].path === request.route.path,
     );
     const path = paths[key];
-    return path && path.public;
+    return !path || path.public;
   }
 
   private validateToken(request: Request) {

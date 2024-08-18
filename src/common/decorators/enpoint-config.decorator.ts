@@ -1,9 +1,4 @@
-import {
-  applyDecorators,
-  HttpCode,
-  HttpStatus,
-  RequestMapping,
-} from '@nestjs/common';
+import { applyDecorators, HttpStatus, RequestMapping } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiResponse,
@@ -34,10 +29,6 @@ export function EndpointConfig(path: Path, apiResponses: ApiResponseOptions[]) {
       method: path.method,
     }),
     ...(!path.public ? [ApiBearerAuth()] : []),
-    HttpCode(
-      (buildApiResponses[0].status as number) ??
-        HttpStatus.INTERNAL_SERVER_ERROR,
-    ),
     ...buildApiResponses.map((apiResponse) => ApiResponse(apiResponse)),
   );
 }
