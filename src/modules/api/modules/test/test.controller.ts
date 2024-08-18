@@ -1,31 +1,21 @@
-import { Controller, HttpCode, RequestMapping } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { BodyMessageResponseDto } from '@src/dtos/body-message-response.dto';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
+import { EndpointConfig } from '@src/common/decorators/enpoint-config.decorator';
 
 @ApiTags(statics.paths.test.tag)
 @Controller()
 export class TestController {
-  @RequestMapping({
-    path: statics.paths.testSuccess.path,
-    method: statics.paths.testSuccess.method,
-  })
-  @ApiBearerAuth()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: BodyMessageResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.testSuccess, [
+    {
+      status: HttpStatus.OK,
+      type: BodyMessageResponseDto,
+    },
+  ])
   getTestSuccess(): BodyMessageResponseDto {
     return {
       status: HttpStatus.OK,
@@ -38,20 +28,7 @@ export class TestController {
     };
   }
 
-  @RequestMapping({
-    path: statics.paths.testError.path,
-    method: statics.paths.testError.method,
-  })
-  @ApiBearerAuth()
-  @HttpCode(HttpStatus.UNAUTHORIZED)
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.testError, [])
   getTestError(): ErrorResponseDto {
     throw new ResponseError({
       status: HttpStatus.INTERNAL_SERVER_ERROR,

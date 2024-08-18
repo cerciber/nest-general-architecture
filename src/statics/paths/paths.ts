@@ -1,6 +1,6 @@
 import { RequestMethod } from '@nestjs/common';
 
-class Path {
+export class Path {
   path: string;
   method?: RequestMethod;
   tag?: string;
@@ -23,6 +23,7 @@ paths.docs = {
 paths.default = {
   path: '*',
   tag: 'Default',
+  method: RequestMethod.ALL,
   public: true,
 };
 

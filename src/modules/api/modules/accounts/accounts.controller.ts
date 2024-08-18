@@ -1,5 +1,5 @@
-import { Body, Controller, Param, RequestMapping } from '@nestjs/common';
-import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { Body, Controller, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { AccountService } from '@src/modules/api/modules/accounts/services/account.service';
@@ -11,29 +11,19 @@ import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { AccountDto, PartialAccountDto } from './dtos/account.dto';
 import { IdDto } from '@src/dtos/id.dto';
 import { ResponseError } from '@src/common/exceptions/response-error';
+import { EndpointConfig } from '@src/common/decorators/enpoint-config.decorator';
 
 @ApiTags(statics.paths.accounts.tag)
 @Controller()
 export class AccountsController {
   constructor(private readonly accountService: AccountService) {}
 
-  @RequestMapping({
-    path: statics.paths.accountsGet.path,
-    method: statics.paths.accountsGet.method,
-  })
-  @ApiBearerAuth()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: AccountsResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.accountsGet, [
+    {
+      status: HttpStatus.OK,
+      type: AccountsResponseDto,
+    },
+  ])
   async findAll(): Promise<AccountsResponseDto> {
     const accounts = await this.accountService.findAll();
     return {
@@ -45,31 +35,20 @@ export class AccountsController {
     };
   }
 
-  @RequestMapping({
-    path: statics.paths.accountsGetOne.path,
-    method: statics.paths.accountsGetOne.method,
-  })
-  @ApiBearerAuth()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: AccountResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.accountsGetOne, [
+    {
+      status: HttpStatus.OK,
+      type: AccountResponseDto,
+    },
+    {
+      status: HttpStatus.BAD_REQUEST,
+      type: ErrorResponseDto,
+    },
+    {
+      status: HttpStatus.NOT_FOUND,
+      type: ErrorResponseDto,
+    },
+  ])
   async findOne(@Param() params: IdDto): Promise<AccountResponseDto> {
     const account = await this.accountService.findOne({ id: params.id });
     return {
@@ -81,31 +60,20 @@ export class AccountsController {
     };
   }
 
-  @RequestMapping({
-    path: statics.paths.accountsCreate.path,
-    method: statics.paths.accountsCreate.method,
-  })
-  @ApiBearerAuth()
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    type: AccountResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.accountsCreate, [
+    {
+      status: HttpStatus.CREATED,
+      type: AccountResponseDto,
+    },
+    {
+      status: HttpStatus.BAD_REQUEST,
+      type: ErrorResponseDto,
+    },
+    {
+      status: HttpStatus.CONFLICT,
+      type: ErrorResponseDto,
+    },
+  ])
   async create(@Body() account: AccountDto): Promise<AccountResponseDto> {
     const createdAccount = await this.accountService.create(account);
     return {
@@ -117,35 +85,24 @@ export class AccountsController {
     };
   }
 
-  @RequestMapping({
-    path: statics.paths.accountsUpdate.path,
-    method: statics.paths.accountsUpdate.method,
-  })
-  @ApiBearerAuth()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: AccountsResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.accountsUpdate, [
+    {
+      status: HttpStatus.OK,
+      type: AccountsResponseDto,
+    },
+    {
+      status: HttpStatus.BAD_REQUEST,
+      type: ErrorResponseDto,
+    },
+    {
+      status: HttpStatus.NOT_FOUND,
+      type: ErrorResponseDto,
+    },
+    {
+      status: HttpStatus.CONFLICT,
+      type: ErrorResponseDto,
+    },
+  ])
   async update(
     @Param() params: IdDto,
     @Body() updateAccountRequest: PartialAccountDto,
@@ -171,31 +128,20 @@ export class AccountsController {
     };
   }
 
-  @RequestMapping({
-    path: statics.paths.accountsDelete.path,
-    method: statics.paths.accountsDelete.method,
-  })
-  @ApiBearerAuth()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: AccountsResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.accountsDelete, [
+    {
+      status: HttpStatus.OK,
+      type: AccountsResponseDto,
+    },
+    {
+      status: HttpStatus.BAD_REQUEST,
+      type: ErrorResponseDto,
+    },
+    {
+      status: HttpStatus.NOT_FOUND,
+      type: ErrorResponseDto,
+    },
+  ])
   async delete(@Param() params: IdDto): Promise<AccountResponseDto> {
     const deletedAccounts = await this.accountService.delete({ id: params.id });
     if (deletedAccounts.length === 0) {

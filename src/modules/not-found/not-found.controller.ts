@@ -1,24 +1,21 @@
-import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, HttpStatus } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { statics } from '@src/statics/statics';
+import { EndpointConfig } from '@src/common/decorators/enpoint-config.decorator';
 
 @ApiTags(statics.paths.default.tag)
-@Controller(statics.paths.default.path)
+@Controller()
 export class NotFoundController {
   constructor() {}
 
-  @Get()
-  @HttpCode(HttpStatus.NOT_FOUND)
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.default, [
+    {
+      status: HttpStatus.NOT_FOUND,
+      type: ErrorResponseDto,
+    },
+  ])
   handleNotFound(): ErrorResponseDto {
     throw new ResponseError({
       status: HttpStatus.NOT_FOUND,

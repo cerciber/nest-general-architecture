@@ -1,7 +1,7 @@
-import { Body, Controller, HttpStatus, RequestMapping } from '@nestjs/common';
+import { Body, Controller, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { statics } from '@src/statics/statics';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import {
   AccountDto,
@@ -10,6 +10,7 @@ import {
 import { TokenResponseDto } from './dtos/token-response.dto';
 import { AccountResponseDto } from '../accounts/dtos/account-response.dto';
 import { AccountService } from '../accounts/services/account.service';
+import { EndpointConfig } from '@src/common/decorators/enpoint-config.decorator';
 
 @ApiTags(statics.paths.auth.tag)
 @Controller()
@@ -19,26 +20,16 @@ export class AuthController {
     private readonly accountService: AccountService,
   ) {}
 
-  @RequestMapping({
-    path: statics.paths.authLogin.path,
-    method: statics.paths.authLogin.method,
-  })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: TokenResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.authLogin, [
+    {
+      status: HttpStatus.OK,
+      type: TokenResponseDto,
+    },
+    {
+      status: HttpStatus.BAD_REQUEST,
+      type: ErrorResponseDto,
+    },
+  ])
   async login(
     @Body() account: AccountEmailAndPasswordDto,
   ): Promise<TokenResponseDto> {
@@ -55,31 +46,20 @@ export class AuthController {
     };
   }
 
-  @RequestMapping({
-    path: statics.paths.authSignup.path,
-    method: statics.paths.authSignup.method,
-  })
-  @ApiBearerAuth()
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    type: AccountResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.CONFLICT,
-    type: ErrorResponseDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    type: ErrorResponseDto,
-  })
+  @EndpointConfig(statics.paths.authSignup, [
+    {
+      status: HttpStatus.CREATED,
+      type: AccountResponseDto,
+    },
+    {
+      status: HttpStatus.BAD_REQUEST,
+      type: ErrorResponseDto,
+    },
+    {
+      status: HttpStatus.CONFLICT,
+      type: ErrorResponseDto,
+    },
+  ])
   async signup(@Body() account: AccountDto): Promise<AccountResponseDto> {
     const createdAccount = await this.accountService.create(account);
     return {
