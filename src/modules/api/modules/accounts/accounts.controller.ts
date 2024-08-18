@@ -26,6 +26,10 @@ export class AccountsController {
     type: AccountsResponseDto,
   })
   @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     type: ErrorResponseDto,
   })
@@ -50,6 +54,10 @@ export class AccountsController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
     type: ErrorResponseDto,
   })
   @ApiResponse({
@@ -84,6 +92,10 @@ export class AccountsController {
     type: ErrorResponseDto,
   })
   @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
     status: HttpStatus.CONFLICT,
     type: ErrorResponseDto,
   })
@@ -112,6 +124,10 @@ export class AccountsController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
     type: ErrorResponseDto,
   })
   @ApiResponse({
@@ -161,6 +177,10 @@ export class AccountsController {
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
     type: ErrorResponseDto,
   })
   @ApiResponse({

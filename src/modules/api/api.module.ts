@@ -5,7 +5,7 @@ import { ApiController } from './api.controller';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [TestModule, AccountsModule, AuthModule],
+  imports: [AuthModule, AccountsModule, TestModule],
   controllers: [ApiController],
 })
 export class ApiModule {}

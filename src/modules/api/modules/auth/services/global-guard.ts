@@ -45,12 +45,17 @@ export class GlobalGuard implements CanActivate {
   }
 
   private validateToken(request: Request) {
-    const authHeader = request.header('Auth');
-    if (!authHeader) {
+    const authHeader = request.header('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return false;
     }
+    const bearerTokenMatch = authHeader.match(/^Bearer\s+(\S+)$/);
+    if (!bearerTokenMatch) {
+      return false;
+    }
+    const token = bearerTokenMatch[1];
     try {
-      this.jwtService.verify(authHeader);
+      this.jwtService.verify(token);
       return true;
     } catch {
       return false;

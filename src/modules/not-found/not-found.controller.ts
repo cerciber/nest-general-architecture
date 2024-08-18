@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { ResponseError } from '@src/common/exceptions/response-error';
@@ -10,8 +10,13 @@ export class NotFoundController {
   constructor() {}
 
   @Get()
+  @HttpCode(HttpStatus.NOT_FOUND)
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
     type: ErrorResponseDto,
   })
   handleNotFound(): ErrorResponseDto {

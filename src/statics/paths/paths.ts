@@ -12,7 +12,7 @@ paths.root = {
   path: '/',
   tag: 'Root',
   method: RequestMethod.GET,
-  public: true,
+  public: false,
 };
 
 paths.docs = {
@@ -34,13 +34,13 @@ paths.test = {
 paths.testSuccess = {
   path: `${paths.test.path}/success`,
   method: RequestMethod.GET,
-  public: true,
+  public: false,
 };
 
 paths.testError = {
   path: `${paths.test.path}/error`,
   method: RequestMethod.GET,
-  public: true,
+  public: false,
 };
 
 paths.accounts = {
@@ -57,25 +57,25 @@ paths.accountsGet = {
 paths.accountsGetOne = {
   path: `${paths.accounts.path}/:id`,
   method: RequestMethod.GET,
-  public: true,
+  public: false,
 };
 
 paths.accountsCreate = {
   path: `${paths.accounts.path}`,
   method: RequestMethod.POST,
-  public: true,
+  public: false,
 };
 
 paths.accountsUpdate = {
   path: `${paths.accounts.path}/:id`,
   method: RequestMethod.PATCH,
-  public: true,
+  public: false,
 };
 
 paths.accountsDelete = {
   path: `${paths.accounts.path}/:id`,
   method: RequestMethod.DELETE,
-  public: true,
+  public: false,
 };
 
 paths.auth = {
@@ -85,6 +85,12 @@ paths.auth = {
 
 paths.authLogin = {
   path: `${paths.auth.path}/login`,
+  method: RequestMethod.POST,
+  public: true,
+};
+
+paths.authSignup = {
+  path: `${paths.auth.path}/signup`,
   method: RequestMethod.POST,
   public: true,
 };

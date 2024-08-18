@@ -10,6 +10,7 @@ export class SwaggerService {
       .setTitle(statics.docs.title)
       .setDescription(statics.docs.description)
       .setVersion(statics.docs.version)
+      .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(this.app, documentConfig);
     SwaggerModule.setup(statics.paths.docs.path, this.app, document);

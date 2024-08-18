@@ -3,6 +3,7 @@ import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { BodyMessageResponseDto } from '@src/dtos/body-message-response.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 
 @ApiTags(statics.paths.root.tag)
 @Controller(statics.paths.root.path)
@@ -13,6 +14,14 @@ export class ApiController {
   @ApiResponse({
     status: HttpStatus.OK,
     type: BodyMessageResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    type: ErrorResponseDto,
   })
   getRootMessage(): BodyMessageResponseDto {
     return {

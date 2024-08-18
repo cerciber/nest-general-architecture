@@ -17,6 +17,14 @@ export class TestController {
     status: HttpStatus.OK,
     type: BodyMessageResponseDto,
   })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    type: ErrorResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    type: ErrorResponseDto,
+  })
   getTestSuccess(): BodyMessageResponseDto {
     return {
       status: HttpStatus.OK,
@@ -33,7 +41,11 @@ export class TestController {
     path: statics.paths.testError.path,
     method: statics.paths.testError.method,
   })
-  @HttpCode(HttpStatus.INTERNAL_SERVER_ERROR)
+  @HttpCode(HttpStatus.UNAUTHORIZED)
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    type: ErrorResponseDto,
+  })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     type: ErrorResponseDto,
