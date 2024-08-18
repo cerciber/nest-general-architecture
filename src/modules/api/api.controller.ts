@@ -1,4 +1,4 @@
-import { Controller, Get, Abstract } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/commons';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { BodyMessageResponseDto } from '@src/dtos/body-message-response.dto';
