@@ -20,4 +20,4 @@ import { statics } from '@src/statics/statics';
   ],
   exports: [CustomConfigService],
 })
-export class CustomConfigModule { }
+export class CustomConfigModule {}

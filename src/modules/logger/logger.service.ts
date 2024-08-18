@@ -27,11 +27,13 @@ export class LoggerService {
         format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         format.metadata(),
         format.printf((info) => {
-          return `[${info.metadata.timestamp}] [${info.level.toUpperCase()}] [${info.metadata.type}:${info.metadata.category}] \n  → ${info.message
-            } ${info.metadata.content
+          return `[${info.metadata.timestamp}] [${info.level.toUpperCase()}] [${info.metadata.type}:${info.metadata.category}] \n  → ${
+            info.message
+          } ${
+            info.metadata.content
               ? `\n  → ${JSON.stringify(info.metadata.content, null, 2).replace(/\n/g, '\n    ')}`
               : ''
-            }`;
+          }`;
         }),
       ),
     });
@@ -58,11 +60,13 @@ export class LoggerService {
               break;
             default:
           }
-          return `\x1b[32m[${info.metadata.timestamp}] ${label} \x1b[36m[${info.metadata.type
-            }:${info.metadata.category}] \x1b[37m\n  → ${info.message} ${info.metadata.content
+          return `\x1b[32m[${info.metadata.timestamp}] ${label} \x1b[36m[${
+            info.metadata.type
+          }:${info.metadata.category}] \x1b[37m\n  → ${info.message} ${
+            info.metadata.content
               ? `\n  → ${JSON.stringify(info.metadata.content, null, 2).replace(/\n/g, '\n    ')}`
               : ''
-            }`;
+          }`;
         }),
       ),
     });
@@ -142,7 +146,7 @@ export class LoggerService {
   }
 
   public logResponse(response: BodyResponseDto | ErrorResponseDto) {
-    let logLevel: LogLevel = this.getLogLevel(response.status);
+    const logLevel: LogLevel = this.getLogLevel(response.status);
     switch (logLevel) {
       case 'INFO':
         if (statics.constants.logs.logResponses.info) {

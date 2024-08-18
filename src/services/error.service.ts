@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
 import { LaunchError } from '@src/common/exceptions/launch-error';
 import { ResponseError } from '@src/common/exceptions/response-error';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
@@ -8,12 +8,11 @@ import { v4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
-import { stat } from 'fs';
 import { replacePlaceholders } from '@src/common/functions/replace-placeholders';
 
 @Injectable()
 export class ErrorService {
-  constructor(private readonly loggerService: LoggerService) { }
+  constructor(private readonly loggerService: LoggerService) {}
 
   public startSystemHandler(err: any) {
     let response: LaunchErrorResponseDto;
@@ -23,8 +22,7 @@ export class ErrorService {
       response = {
         code: statics.codes.startError.code,
         message: statics.codes.startError.message,
-        detail:
-          err?.message ?? statics.messages.default.unhandledError,
+        detail: err?.message ?? statics.messages.default.unhandledError,
         error: {
           id: v4(),
           stack: err?.stack?.split('\n') ?? [
@@ -48,7 +46,12 @@ export class ErrorService {
         status: HttpStatus.BAD_REQUEST,
         code: statics.codes.badRequest.code,
         message: statics.codes.badRequest.message,
-        detail: replacePlaceholders(statics.messages.default.badRequest, [exceptionResponse?.['message']?.join?.(', ') ?? exceptionResponse?.['message']?.toString?.() ?? exceptionResponse?.toString()]) ?? statics.messages.default.unhandledError,
+        detail:
+          replacePlaceholders(statics.messages.default.badRequest, [
+            exceptionResponse?.['message']?.join?.(', ') ??
+              exceptionResponse?.['message']?.toString?.() ??
+              exceptionResponse?.toString(),
+          ]) ?? statics.messages.default.unhandledError,
         error: {
           id: v4(),
           stack: err.stack?.split('\n') || [
@@ -62,8 +65,7 @@ export class ErrorService {
         status: err.status ?? HttpStatus.INTERNAL_SERVER_ERROR,
         code: statics.codes.unhandledError.code,
         message: statics.codes.unhandledError.message,
-        detail:
-          err?.message ?? statics.messages.default.unhandledError,
+        detail: err?.message ?? statics.messages.default.unhandledError,
         error: {
           id: v4(),
           stack: err?.stack?.split('\n') ?? [
@@ -76,7 +78,10 @@ export class ErrorService {
     return response;
   }
 
-  public removePrivateData(logLevel: string, response: BodyResponseDto | ErrorResponseDto) {
+  public removePrivateData(
+    logLevel: string,
+    response: BodyResponseDto | ErrorResponseDto,
+  ) {
     if ('error' in response) {
       delete (response as ErrorResponseDto).error.stack;
       switch (logLevel) {

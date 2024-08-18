@@ -6,4 +6,4 @@ import { NotFoundController } from './not-found.controller';
   controllers: [NotFoundController],
   providers: [],
 })
-export class NotFoundModule { }
+export class NotFoundModule {}

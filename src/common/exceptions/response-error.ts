@@ -4,9 +4,7 @@ import { v4 } from 'uuid';
 
 export class ResponseError extends Error {
   public response: ErrorResponseDto;
-  constructor(
-    public responseInput: BasicResponseDto
-  ) {
+  constructor(public responseInput: BasicResponseDto) {
     super(responseInput.detail);
     this.response = {
       status: responseInput.status,

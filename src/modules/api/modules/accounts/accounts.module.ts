@@ -4,6 +4,6 @@ import { MongoModule } from '@src/modules/mongo/mongo.module';
 
 @Module({
   imports: [MongoModule],
-  controllers: [AccountsController]
+  controllers: [AccountsController],
 })
-export class AccountsModule { }
+export class AccountsModule {}

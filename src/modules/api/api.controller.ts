@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { BodyMessageResponseDto } from '@src/dtos/body-message-response.dto';
@@ -7,7 +7,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags(statics.paths.root.tag)
 @Controller(statics.paths.root.path)
 export class ApiController {
-  constructor() { }
+  constructor() {}
 
   @Get()
   @ApiResponse({

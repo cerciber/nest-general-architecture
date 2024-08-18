@@ -9,14 +9,17 @@ import { GlobalGuard } from './modules/api/modules/auth/services/global-guard';
 import { JwtService } from '@nestjs/jwt';
 
 async function bootstrap() {
-  let loggerService: LoggerService
+  let loggerService: LoggerService;
   try {
     // Create logger
     loggerService = new LoggerService();
 
     // Create app
     loggerService.info(`Creating app...`, 'SYSTEM', 'INIT');
-    const app = await NestFactory.create(AppModule, { abortOnError: false, logger: false });
+    const app = await NestFactory.create(AppModule, {
+      abortOnError: false,
+      logger: false,
+    });
     loggerService.info(`App created.`, 'SYSTEM', 'INIT');
 
     // Apply configurations
@@ -29,13 +32,16 @@ async function bootstrap() {
     loggerService.info(`Running server...`, 'SYSTEM', 'INIT');
     const customConfigService = app.get(CustomConfigService);
     await app.listen(customConfigService.env.PORT);
-    loggerService.info(`Server running on port ${customConfigService.env.PORT}.`, 'SYSTEM', 'INIT');
-
+    loggerService.info(
+      `Server running on port ${customConfigService.env.PORT}.`,
+      'SYSTEM',
+      'INIT',
+    );
   } catch (err) {
     if (loggerService) {
       new ErrorService(loggerService).startSystemHandler(err);
     } else {
-      console.error("(Logger not avaliable)", err)
+      console.error('(Logger not avaliable)', err);
     }
   }
 }

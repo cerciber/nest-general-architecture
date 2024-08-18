@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, RequestMapping } from '@nestjs/common';
+import { Controller, HttpCode, RequestMapping } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { ResponseError } from '@src/common/exceptions/response-error';
@@ -9,8 +9,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 @ApiTags(statics.paths.test.tag)
 @Controller()
 export class TestController {
-
-  @RequestMapping({ path: statics.paths.testSuccess.path, method: statics.paths.testSuccess.method })
+  @RequestMapping({
+    path: statics.paths.testSuccess.path,
+    method: statics.paths.testSuccess.method,
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     type: BodyMessageResponseDto,
@@ -27,20 +29,21 @@ export class TestController {
     };
   }
 
-  @RequestMapping({ path: statics.paths.testError.path, method: statics.paths.testError.method })
+  @RequestMapping({
+    path: statics.paths.testError.path,
+    method: statics.paths.testError.method,
+  })
   @HttpCode(HttpStatus.INTERNAL_SERVER_ERROR)
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     type: ErrorResponseDto,
   })
   getTestError(): ErrorResponseDto {
-    throw new ResponseError(
-      {
-        status: HttpStatus.INTERNAL_SERVER_ERROR,
-        code: statics.codes.retrievingDataError.code,
-        message: statics.codes.retrievingDataError.message,
-        detail: statics.messages.test.error,
-      }
-    );
+    throw new ResponseError({
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      code: statics.codes.retrievingDataError.code,
+      message: statics.codes.retrievingDataError.message,
+      detail: statics.messages.test.error,
+    });
   }
 }

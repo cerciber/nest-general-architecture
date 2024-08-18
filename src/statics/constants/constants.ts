@@ -24,7 +24,7 @@ export const constants = {
       info: true,
       warn: true,
       error: true,
-    }
+    },
   },
   jwt: {
     tokensExpireIn: '60m',

@@ -10,12 +10,7 @@ import { ApiModule } from '@src/modules/api/api.module';
 import { DefaultErrorFilter } from './common/exceptions/default-error-filter';
 
 @Module({
-  imports: [
-    LoggerModule,
-    CustomConfigModule,
-    ApiModule,
-    NotFoundModule,
-  ],
+  imports: [LoggerModule, CustomConfigModule, ApiModule, NotFoundModule],
   providers: [
     ErrorService,
     DTOsService,
@@ -28,9 +23,6 @@ import { DefaultErrorFilter } from './common/exceptions/default-error-filter';
       useClass: DefaultErrorFilter,
     },
   ],
-  exports: [
-    ErrorService,
-    DTOsService
-  ]
+  exports: [ErrorService, DTOsService],
 })
-export class AppModule { }
+export class AppModule {}

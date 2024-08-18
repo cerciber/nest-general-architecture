@@ -1,4 +1,4 @@
-import { RequestMethod } from "@nestjs/common";
+import { RequestMethod } from '@nestjs/common';
 
 class Path {
   path: string;

@@ -3,9 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 
 export class SwaggerService {
-  constructor(
-    private readonly app: INestApplication
-  ) { }
+  constructor(private readonly app: INestApplication) {}
 
   public setupSwagger() {
     const documentConfig = new DocumentBuilder()

@@ -6,7 +6,6 @@ import { plainToInstance } from 'class-transformer';
 import { LaunchError } from '@src/common/exceptions/launch-error';
 import { statics } from '@src/statics/statics';
 
-
 @Injectable()
 export class CustomConfigService extends ConfigService {
   private envConfig: EnvsDto;
@@ -18,18 +17,24 @@ export class CustomConfigService extends ConfigService {
 
   public validateEnvs() {
     if (
-      !statics.constants.validations.validEnviroments.includes(statics.constants.envs.enviroment)
+      !statics.constants.validations.validEnviroments.includes(
+        statics.constants.envs.enviroment,
+      )
     ) {
       throw new LaunchError(
         statics.codes.startError.code,
         statics.codes.startError.message,
-        statics.messages.default.noValidEnvironment
+        statics.messages.default.noValidEnvironment,
       );
     }
 
-    const validatedConfig = plainToInstance(EnvsDto, statics.constants.envs.processEnv, {
-      enableImplicitConversion: true,
-    });
+    const validatedConfig = plainToInstance(
+      EnvsDto,
+      statics.constants.envs.processEnv,
+      {
+        enableImplicitConversion: true,
+      },
+    );
 
     const errors = validateSync(validatedConfig, {
       skipMissingProperties: false,
@@ -39,7 +44,7 @@ export class CustomConfigService extends ConfigService {
       throw new LaunchError(
         statics.codes.startError.code,
         statics.codes.startError.message,
-        errors.toString()
+        errors.toString(),
       );
     }
     this.envConfig = validatedConfig;

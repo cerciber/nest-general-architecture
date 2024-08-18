@@ -9,29 +9,32 @@ import { TokenDto } from './dtos/token.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly accountService: AccountService, private readonly jwtService: JwtService) { }
+  constructor(
+    private readonly accountService: AccountService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async validateUserByEmail(email: string, password: string): Promise<TokenDto> {
+  async validateUserByEmail(
+    email: string,
+    password: string,
+  ): Promise<TokenDto> {
     try {
       const account = await this.accountService.findOneWithPassword({
         email: email,
-      })
+      });
       const validPassword = bcrypt.compareSync(password, account.password);
       if (!validPassword) {
-        throw new Error()
+        throw new Error();
       }
       return this.generateToken(account);
     } catch (error) {
-      throw new ResponseError(
-        {
-          status: HttpStatus.UNAUTHORIZED,
-          code: statics.codes.unauthorizedRequest.code,
-          message: statics.codes.unauthorizedRequest.message,
-          detail: statics.messages.default.incorrectEmailOrPassword,
-        },
-      );
+      throw new ResponseError({
+        status: HttpStatus.UNAUTHORIZED,
+        code: statics.codes.unauthorizedRequest.code,
+        message: statics.codes.unauthorizedRequest.message,
+        detail: statics.messages.default.incorrectEmailOrPassword,
+      });
     }
-
   }
 
   async generateToken(account: AccountIdNoPasswordDto): Promise<TokenDto> {

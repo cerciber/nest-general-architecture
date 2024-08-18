@@ -5,7 +5,7 @@ import {
   CallHandler,
 } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { ErrorService } from '@src/services/error.service';
@@ -16,11 +16,11 @@ import { Response } from 'express';
 export class ResponseInterceptor implements NestInterceptor {
   constructor(
     private readonly errorService: ErrorService,
-    private readonly loggerService: LoggerService
-  ) { }
+    private readonly loggerService: LoggerService,
+  ) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const res = context.switchToHttp().getResponse<Response>()
+    const res = context.switchToHttp().getResponse<Response>();
     return next.handle().pipe(
       tap((response: BodyResponseDto | ErrorResponseDto) => {
         const logLevel = this.loggerService.logResponse(response);

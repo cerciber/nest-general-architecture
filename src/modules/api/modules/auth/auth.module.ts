@@ -20,9 +20,7 @@ import { statics } from '@src/statics/statics';
       }),
     }),
   ],
-  providers: [
-    AuthService,
-  ],
+  providers: [AuthService],
   controllers: [AuthController],
 })
-export class AuthModule { }
+export class AuthModule {}
