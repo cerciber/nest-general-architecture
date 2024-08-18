@@ -1,5 +1,5 @@
 import { Body, Controller, Param, RequestMapping } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { AccountService } from '@src/modules/api/modules/accounts/services/account.service';
@@ -21,6 +21,7 @@ export class AccountsController {
     path: statics.paths.accountsGet.path,
     method: statics.paths.accountsGet.method,
   })
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountsResponseDto,
@@ -48,6 +49,7 @@ export class AccountsController {
     path: statics.paths.accountsGetOne.path,
     method: statics.paths.accountsGetOne.method,
   })
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountResponseDto,
@@ -83,6 +85,7 @@ export class AccountsController {
     path: statics.paths.accountsCreate.path,
     method: statics.paths.accountsCreate.method,
   })
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.CREATED,
     type: AccountResponseDto,
@@ -118,6 +121,7 @@ export class AccountsController {
     path: statics.paths.accountsUpdate.path,
     method: statics.paths.accountsUpdate.method,
   })
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountsResponseDto,
@@ -171,6 +175,7 @@ export class AccountsController {
     path: statics.paths.accountsDelete.path,
     method: statics.paths.accountsDelete.method,
   })
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     type: AccountsResponseDto,

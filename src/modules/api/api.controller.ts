@@ -1,16 +1,20 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, RequestMapping } from '@nestjs/common';
 import { statics } from '@src/statics/statics';
 import { HttpStatus } from '@nestjs/common';
 import { BodyMessageResponseDto } from '@src/dtos/body-message-response.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 
 @ApiTags(statics.paths.root.tag)
-@Controller(statics.paths.root.path)
+@Controller()
 export class ApiController {
   constructor() {}
 
-  @Get()
+  @RequestMapping({
+    path: statics.paths.root.path,
+    method: statics.paths.root.method,
+  })
+  @ApiBearerAuth()
   @ApiResponse({
     status: HttpStatus.OK,
     type: BodyMessageResponseDto,
