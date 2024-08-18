@@ -52,7 +52,7 @@ export class GlobalGuard implements CanActivate {
     try {
       this.jwtService.verify(authHeader);
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }

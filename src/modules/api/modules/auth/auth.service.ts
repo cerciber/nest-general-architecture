@@ -27,7 +27,7 @@ export class AuthService {
         throw new Error();
       }
       return this.generateToken(account);
-    } catch (error) {
+    } catch {
       throw new ResponseError({
         status: HttpStatus.UNAUTHORIZED,
         code: statics.codes.unauthorizedRequest.code,
