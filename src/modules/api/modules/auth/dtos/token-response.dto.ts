@@ -1,9 +1,10 @@
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
-import { IsDefined, IsObject } from 'class-validator';
+import { ValidateNested } from 'class-validator';
 import { TokenDto } from './token.dto';
+import { Type } from 'class-transformer';
 
 export class TokenResponseDto extends BodyResponseDto {
-  @IsDefined()
-  @IsObject()
+  @ValidateNested()
+  @Type(() => TokenDto)
   body: TokenDto;
 }

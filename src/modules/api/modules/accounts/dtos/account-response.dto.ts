@@ -1,15 +1,17 @@
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
-import { IsDefined, IsObject } from 'class-validator';
+import { IsArray, ValidateNested } from 'class-validator';
 import { AccountIdNoPasswordDto } from './account.dto';
+import { Type } from 'class-transformer';
 
 export class AccountResponseDto extends BodyResponseDto {
-  @IsDefined()
-  @IsObject()
+  @ValidateNested()
+  @Type(() => AccountIdNoPasswordDto)
   body: AccountIdNoPasswordDto;
 }
 
 export class AccountsResponseDto extends BodyResponseDto {
-  @IsDefined()
-  @IsObject()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => AccountIdNoPasswordDto)
   body: AccountIdNoPasswordDto[];
 }

@@ -2,7 +2,7 @@ import { IsArray, IsDefined, IsString } from 'class-validator';
 
 export class ErrorDto {
   @IsString()
-  id: string;
+  id?: string;
 
   @IsDefined()
   @IsArray()

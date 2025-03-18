@@ -1,13 +1,20 @@
 import { Global, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Account, AccountSchema } from './schemas/account.schema';
-import { AccountService } from '../api/modules/accounts/services/account.service';
+import { AccountSchema } from './schemas/account.schema';
+import { AccountInfoSchema } from './schemas/account-info.schema';
 import { CustomConfigModule } from '@src/modules/custom-config/custom-config.module';
-import { CustomConfigService } from '@src/modules/custom-config/custom-config.service';
-import { LoggerService } from '@src/modules/logger/logger.service';
+import { CustomConfigService } from '@src/modules/custom-config/services/custom-config.service';
+import { LoggerService } from '@src/modules/logger/services/logger.service';
 import { LoggerModule } from '@src/modules/logger/logger.module';
+import { statics } from '@src/common/statics/statics';
 
-const models = [{ name: Account.name, schema: AccountSchema }];
+const models = [
+  { name: statics.constants.mongoose.schemas.Account, schema: AccountSchema },
+  {
+    name: statics.constants.mongoose.schemas.AccountInfo,
+    schema: AccountInfoSchema,
+  },
+];
 
 @Global()
 @Module({
@@ -22,7 +29,7 @@ const models = [{ name: Account.name, schema: AccountSchema }];
         loggerService.info('Connecting to MongoDB...', 'SYSTEM', 'INIT');
         return {
           uri: customConfigService.env.MONGO_URI,
-          connectionFactory: (connection) => {
+          connectionFactory: (connection): ((connection: any) => any) => {
             if (connection.readyState === 1) {
               loggerService.info(
                 `Mongo connection established.`,
@@ -38,7 +45,7 @@ const models = [{ name: Account.name, schema: AccountSchema }];
     }),
     MongooseModule.forFeature(models),
   ],
-  providers: [AccountService],
-  exports: [AccountService],
+  providers: [],
+  exports: [MongooseModule],
 })
 export class MongoModule {}

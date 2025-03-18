@@ -1,7 +1,7 @@
 import { Module, Global } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CustomConfigService } from './custom-config.service';
-import { statics } from '@src/statics/statics';
+import { CustomConfigService } from './services/custom-config.service';
+import { statics } from '@src/common/statics/statics';
 
 @Global()
 @Module({

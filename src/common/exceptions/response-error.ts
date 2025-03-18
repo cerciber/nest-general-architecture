@@ -13,7 +13,7 @@ export class ResponseError extends Error {
       detail: responseInput.detail,
       error: {
         id: v4(),
-        stack: this.stack.split('\n'),
+        stack: this.stack?.split('\n') ?? [],
       },
     };
   }

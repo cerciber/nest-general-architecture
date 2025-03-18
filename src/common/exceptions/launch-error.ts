@@ -1,8 +1,9 @@
-import { LaunchErrorResponseDto } from '@src/dtos/launch-response.dto';
+import { HttpStatus } from '@nestjs/common';
+import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { v4 } from 'uuid';
 
 export class LaunchError extends Error {
-  public response: LaunchErrorResponseDto;
+  public response: ErrorResponseDto;
   constructor(
     public code: string,
     public message: string,
@@ -10,12 +11,13 @@ export class LaunchError extends Error {
   ) {
     super(detail);
     this.response = {
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
       code: code,
       message: message,
       detail: detail,
       error: {
         id: v4(),
-        stack: this.stack.split('\n'),
+        stack: this.stack?.split('\n') ?? [],
       },
     };
   }

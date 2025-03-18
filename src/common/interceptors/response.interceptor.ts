@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 import { BodyResponseDto } from '@src/dtos/body-response.dto';
 import { ErrorResponseDto } from '@src/dtos/error-response.dto';
 import { ErrorService } from '@src/services/error.service';
-import { LoggerService } from '@src/modules/logger/logger.service';
+import { LoggerService } from '@src/modules/logger/services/logger.service';
 import { Response } from 'express';
 
 @Injectable()
@@ -19,7 +19,10 @@ export class ResponseInterceptor implements NestInterceptor {
     private readonly loggerService: LoggerService,
   ) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler,
+  ): Observable<BodyResponseDto | ErrorResponseDto> {
     const res = context.switchToHttp().getResponse<Response>();
     return next.handle().pipe(
       tap((response: BodyResponseDto | ErrorResponseDto) => {
