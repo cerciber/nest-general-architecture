@@ -9,7 +9,6 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "cross-env nest start",
-    "check-types": "tsc --noEmit",
     "prestart:dev": "npm run check-all",
     "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:staging": "cross-env NODE_ENV=staging node dist/main",
@@ -19,8 +18,10 @@
     "test": "cross-env NODE_ENV=development jest --config ./test/jest-e2e.json --testPathPattern",
     "prepare": "husky",
     "db:reset": "cross-env NODE_ENV=development nest start -- script=set-sample-data",
-    "check-unused": "ts-prune | (! grep .)",
-    "check-all": "npm run lint && npm run check-types"
+    "check-types": "tsc --noEmit",
+    "check-unused": "ts-prune | findstr . && exit 1 || exit 0",
+    "find-duplicates": "jscpd src/ --ignore \"**/*.spec.ts,\" --reporters html,console --min-tokens 40 --threshold 0",
+    "check-all": "npm run lint && npm run check-types && npm run check-unused"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -70,6 +71,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.4",
     "jest": "^29.5.0",
+    "jscpd": "^4.0.5",
     "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",
     "source-map-support": "^0.5.21",

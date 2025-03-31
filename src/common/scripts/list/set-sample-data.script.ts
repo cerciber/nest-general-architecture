@@ -44,6 +44,7 @@ async function validateAccountDtos(
   }
 }
 
+// ts-prune-ignore-next
 export default async function setSampleData(
   app: INestApplicationContext,
 ): Promise<void> {

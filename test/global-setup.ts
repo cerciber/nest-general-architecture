@@ -59,6 +59,7 @@ async function createTestUsers(app: INestApplication<any>): Promise<{
   };
 }
 
+// ts-prune-ignore-next
 export default async (): Promise<void> => {
   const app = await getApp();
   await app.init();
